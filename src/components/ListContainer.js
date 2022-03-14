@@ -188,11 +188,8 @@ const Li = styled.li`
   &:last-child {
     border-bottom: none;
   }
-<<<<<<< HEAD
   &.over {
     transform: scale(1.1, 1.1);
     background-color: #00a8ff;
   }
-=======
->>>>>>> 1d8eaab (feat: homepage...)
 `;
