@@ -8,10 +8,7 @@ import {
   faAngleDoubleRight,
   faArrowRotateRight,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  leftListState, // 왼쪽 리스트
-  rightListState, // 오른쪽 리스트
-} from '../../atom/objectAtom';
+import { leftListState, rightListState } from '../../atom/objectAtom';
 import { useRecoilState } from 'recoil';
 import { emojiMenus } from '../../assets/data';
 
@@ -62,10 +59,9 @@ const ItemMoveButton = () => {
     setRightList([]);
   };
   const handleMoveSelected = (selectedItems) => {
-    console.log(rightList, 'rightList1');
-    setRightList((selectedOptions) => selectedOptions.concat(selectedItems));
-    setLeftList((availableOptions) =>
-      availableOptions.filter((option) => {
+    setRightList((list) => list.concat(selectedItems));
+    setLeftList((list) =>
+      list.filter((option) => {
         let result = true;
         selectedItems.forEach((item) => {
           if (option.id === item.id) result = false;
@@ -73,6 +69,27 @@ const ItemMoveButton = () => {
         return result;
       })
     );
+  };
+  const handleMoveAvailable = (selectedItems) => {
+    setLeftList((leftList) => leftList.concat(selectedItems));
+    setRightList((rightList) =>
+      rightList.filter((option) => {
+        let result = true;
+        selectedItems.forEach((item) => {
+          if (option.id === item.id) result = false;
+        });
+        return result;
+      })
+    );
+  };
+  const handleMoveAll = (direction) => {
+    if (direction === 'right') {
+      setRightList((rightList) => rightList.concat(leftList));
+      setLeftList([]);
+    } else if (direction === 'left') {
+      setLeftList((leftList) => leftList.concat(rightList));
+      setRightList([]);
+    }
   };
 
   return (
@@ -87,16 +104,16 @@ const ItemMoveButton = () => {
           <FontAwesomeIcon icon={faArrowRotateRight} onClick={handleInitializationClick} />
         </Button>
         <Button>
-          <FontAwesomeIcon icon={faAngleDoubleLeft} />
+          <FontAwesomeIcon icon={faAngleDoubleLeft} onClick={() => handleMoveAll('right')} />
         </Button>
         <Button>
-          <FontAwesomeIcon icon={faAngleDoubleRight} />
+          <FontAwesomeIcon icon={faAngleDoubleRight} onClick={() => handleMoveAll('left')} />
         </Button>
         <Button>
           <FontAwesomeIcon icon={faAngleLeft} onClick={() => handleMoveSelected(selectedItems)} />
         </Button>
         <Button>
-          <FontAwesomeIcon icon={faAngleRight} />
+          <FontAwesomeIcon icon={faAngleRight} onClick={() => handleMoveAvailable(selectedItems)} />
         </Button>
       </Wrap>
     </>
