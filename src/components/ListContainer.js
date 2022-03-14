@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { emojiMenus } from '../assets/data';
+import { DragToReorderList } from '../hooks/DragAndDrop';
 
 export default function ListContainer({ title = 'available', width, height, fontSize = 'M' }) {
   const [items, setItems] = useState(emojiMenus);
   const [filter, setFilter] = useState('');
   const [selected, setSelected] = useState([]);
   const [size, setSize] = useState();
-
+  const { onDragStart, onDragOver, onDragLeave, onDrop } = DragToReorderList({
+    items,
+    setItems,
+  });
   const handleInput = ({ target: { value } }) => {
     setFilter(value);
   };
@@ -42,13 +46,19 @@ export default function ListContainer({ title = 'available', width, height, font
           <p>{title}</p>
         </TextBox>
         <Ul height={height}>
-          {items.map((item) => {
+          {items.map((item, index) => {
             return (
               <Li
                 key={item.id}
                 size={size}
                 selected={selected.includes(item)}
-                onClick={() => handleClick(item)}
+                // onClick={() => handleClick(item)}
+                data-position={index}
+                draggable={true}
+                onDragStart={onDragStart}
+                onDragOver={onDragOver}
+                onDragLeave={onDragLeave}
+                onDrop={onDrop}
               >{`${item.emoji} ${item.name}`}</Li>
             );
           })}
