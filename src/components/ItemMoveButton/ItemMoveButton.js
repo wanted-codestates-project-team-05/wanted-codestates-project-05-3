@@ -11,26 +11,12 @@ import {
 import { leftListState, rightListState } from '../../atom/objectAtom';
 import { useRecoilState } from 'recoil';
 import { emojiMenus } from '../../assets/data';
-import CountSelectedItem from './CountSelectedItem';
 
 const ItemMoveButton = () => {
   const [leftList, setLeftList] = useRecoilState(leftListState);
   const [rightList, setRightList] = useRecoilState(rightListState);
 
-  const [selectedItems, setSelectedItems] = useState([
-    {
-      id: 19,
-      topId: 6,
-      code: 'EXPLANATION',
-      name: '소명',
-      nameEn: 'Explanation',
-      nameKo: '소명',
-      route: '/explanation',
-      ordinal: 3,
-      visible: true,
-      emoji: '🚗',
-    },
-  ]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const handleInitializationClick = () => {
     setLeftList(emojiMenus);
     setRightList([]);
@@ -46,6 +32,7 @@ const ItemMoveButton = () => {
         return result;
       })
     );
+    setSelectedItems([]);
   };
   const handleMoveAvailable = (selectedItems) => {
     setLeftList((leftList) => leftList.concat(selectedItems));
@@ -58,6 +45,7 @@ const ItemMoveButton = () => {
         return result;
       })
     );
+    setSelectedItems([]);
   };
   const handleMoveAll = (direction) => {
     if (direction === 'right') {
@@ -68,26 +56,32 @@ const ItemMoveButton = () => {
       setRightList([]);
     }
   };
-  const handleSelected = (option) => {
-    if (selectedItems.includes(option)) {
-      setSelectedItems((selected) => selected.filter((item) => item.id !== option.id));
+  const handleSelected = (e, option) => {
+    if (e.shiftKey) {
+      const targetItems = e.target.parentElement.id;
+      if (targetItems === 'left') {
+        setSelectedItems(leftList);
+      } else if (targetItems === 'right') {
+        setSelectedItems(rightList);
+      }
     } else {
-      setSelectedItems((selected) => [...selected, option]);
+      if (selectedItems.includes(option)) {
+        setSelectedItems((selected) => selected.filter((item) => item.id !== option.id));
+      } else {
+        setSelectedItems((selected) => [...selected, option]);
+      }
     }
   };
 
   return (
-    <>
-      <CountSelectedItem selectedItemsLength={selectedItems.length} direction="left" />
-      <ul>
-        {rightList.map((option) => (
-          <Item key={option.id} selected={selectedItems.includes(option)} onClick={() => handleSelected(option)}>
+    <FakeContainer>
+      <ul id="left">
+        {leftList.map((option) => (
+          <Item key={option.id} selected={selectedItems.includes(option)} onClick={(e) => handleSelected(e, option)}>
             {option.name}
           </Item>
         ))}
       </ul>
-      {console.log(rightList, 'rightList2')}
-      {console.log(leftList, 'leftList2')}
       <Wrap>
         <Button>
           <FontAwesomeIcon icon={faArrowRotateRight} onClick={handleInitializationClick} />
@@ -105,10 +99,22 @@ const ItemMoveButton = () => {
           <FontAwesomeIcon icon={faAngleRight} onClick={() => handleMoveAvailable(selectedItems)} />
         </Button>
       </Wrap>
-    </>
+      <ul id="right">
+        {rightList.map((option) => (
+          <Item key={option.id} selected={selectedItems.includes(option)} onClick={(e) => handleSelected(e, option)}>
+            {option.name}
+          </Item>
+        ))}
+      </ul>
+    </FakeContainer>
   );
 };
 export default ItemMoveButton;
+
+const FakeContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 const Wrap = styled.div`
   display: flex;
