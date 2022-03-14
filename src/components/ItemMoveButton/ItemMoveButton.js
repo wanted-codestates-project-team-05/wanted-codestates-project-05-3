@@ -8,25 +8,17 @@ import {
   faAngleDoubleRight,
   faArrowRotateRight,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  leftListState, // 왼쪽 리스트
+  rightListState, // 오른쪽 리스트
+} from '../../atom/objectAtom';
+import { useRecoilState } from 'recoil';
 import { emojiMenus } from '../../assets/data';
 
 const ItemMoveButton = () => {
-  //recoil 로 변경할 부분
-  const [availableOptions, setAvailableOptions] = useState(emojiMenus);
-  const [selectedOptions, setSelectedOptions] = useState([
-    {
-      id: 6,
-      topId: 3,
-      code: 'DASHBOARD',
-      name: '대시보드',
-      nameEn: 'Dashboard',
-      nameKo: '대시보드',
-      route: '/dashboard',
-      ordinal: 1,
-      visible: true,
-      emoji: '🥁',
-    },
-  ]);
+  const [leftList, setLeftList] = useRecoilState(leftListState);
+  const [rightList, setRightList] = useRecoilState(rightListState);
+
   const [selectedItems, setSelectedItems] = useState([
     {
       id: 46,
@@ -66,13 +58,13 @@ const ItemMoveButton = () => {
     },
   ]);
   const handleInitializationClick = () => {
-    console.log(selectedOptions, 'initialization1');
-    setSelectedOptions([]);
+    setLeftList(emojiMenus);
+    setRightList([]);
   };
   const handleMoveSelected = (selectedItems) => {
-    console.log(selectedItems, 'handleMoveAvailable1');
-    setSelectedOptions((selectedOptions) => selectedOptions.concat(selectedItems));
-    setAvailableOptions((availableOptions) =>
+    console.log(rightList, 'rightList1');
+    setRightList((selectedOptions) => selectedOptions.concat(selectedItems));
+    setLeftList((availableOptions) =>
       availableOptions.filter((option) => {
         let result = true;
         selectedItems.forEach((item) => {
@@ -85,11 +77,11 @@ const ItemMoveButton = () => {
 
   return (
     <>
-      {selectedOptions.map((option) => (
+      {rightList.map((option) => (
         <p key={option.id}>{option.name}</p>
       ))}
-      {console.log(selectedOptions, 'selectedOptions2')}
-      {console.log(availableOptions, 'availableOptions2')}
+      {console.log(rightList, 'rightList2')}
+      {console.log(leftList, 'leftList2')}
       <Wrap>
         <Button>
           <FontAwesomeIcon icon={faArrowRotateRight} onClick={handleInitializationClick} />
