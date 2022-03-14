@@ -16,8 +16,19 @@ export default function ListContainer({ title = 'available', width, height, font
     setFilter(value);
   };
 
-  const handleClick = (item) => {
-    setSelected((prev) => (prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]));
+  const handleClick = (e, item) => {
+    if (e.nativeEvent.ctrlKey) {
+      setSelected((prev) =>
+        prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]
+      );
+    } else if (e.nativeEvent.shiftKey) {
+      const index = items.findIndex((value) => value === selected[selected.length - 1]);
+      const clickedIndex = items.findIndex((value) => value === item);
+      if (index <= clickedIndex) setSelected(items.slice(index, clickedIndex + 1));
+      if (index > clickedIndex) setSelected(items.slice(clickedIndex, index + 1));
+    } else {
+      setSelected([item]);
+    }
   };
 
   useEffect(() => {
@@ -52,9 +63,9 @@ export default function ListContainer({ title = 'available', width, height, font
                 key={item.id}
                 size={size}
                 selected={selected.includes(item)}
-                onClick={() => handleClick(item)}
                 data-position={index}
                 draggable={true}
+                onClick={(e) => handleClick(e, item)}
                 onDragStart={onDragStart}
                 onDragOver={onDragOver}
                 onDragLeave={onDragLeave}
