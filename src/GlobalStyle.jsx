@@ -44,6 +44,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+button {
+  background: inherit;
+  border: none;
+}
 `;
+
 
 export default GlobalStyle;
