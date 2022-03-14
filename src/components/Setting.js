@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import AlertModal from './AlertModal';
 import {
   titleOnOffState, // 타이틀 on/off 값 true OR false
   oneDragOnOffState, // 하나씩 옮기기 on/off 값 true OR false
@@ -17,7 +18,8 @@ import {
 
 const Setting = () => {
   const [isSetting, setIsSetting] = useState(false);
-
+  const [isModal, setIsModal] = useState(false);
+ // const [inputValueNumber, setInputValueNumber] = useState("");
   const [title, setTitle] = useRecoilState(titleOnOffState);
   const [leftTitleName] = useRecoilState(leftTitleNameState);
   const [rightTitleName] = useRecoilState(rightTitleNameState);
@@ -51,11 +53,29 @@ const Setting = () => {
   };
 
   const handlerChangeComponentWidth = (e) => {
-    setComponentWidth(e.target.value);
+    const regex = /^[0-9]/g;
+    if (e.target.value.replace(regex, "")) {
+      if (e.target.value >= 200) { 
+        setComponentWidth(e.target.value);
+      }
+    }
+    if (regex.test(e.target.value) === false) {
+      setIsModal(!isModal);
+      e.target.value = '';
+    }
   };
 
   const handlerChangeComponentHight = (e) => {
-    setComponentHeight(e.target.value);
+    const regex = /^[0-9]/g;
+    if (e.target.value.replace(regex, '')) {
+      if (e.target.value >= 300) {
+        setComponentHeight(e.target.value);
+      }
+    }
+    if (regex.test(e.target.value) === false) {
+      setIsModal(!isModal);
+      e.target.value = '';
+    }
   };
 
   return (
@@ -81,8 +101,8 @@ const Setting = () => {
           </li>
           {!title && (
             <li>
-              <input valau={leftTitleName} placeholder="available options" className="inp-setting" />
-              <input valau={rightTitleName} placeholder="selected options" className="inp-setting" />
+              <input defaultValue={leftTitleName} placeholder="available options" className="inp-setting" />
+              <input defaultValue={rightTitleName} placeholder="selected options" className="inp-setting" />
             </li>
           )}
           <li>
@@ -129,8 +149,9 @@ const Setting = () => {
                 type="text"
                 maxLength="3"
                 onChange={handlerChangeComponentWidth}
-                placeholder={'가로 ( ' + componentWidth + 'px, 최소 크키 180px)'}
+                placeholder={'가로 ( ' + componentWidth + 'px, 최소 크키 200px)'}
                 className="inp-setting"
+                defaultValue={componentWidth === 200 ? '' : componentWidth}
               />
             </div>
             <div>
@@ -140,11 +161,13 @@ const Setting = () => {
                 onChange={handlerChangeComponentHight}
                 placeholder={'세로 (' + componentHeight + 'px, 최소 크기 300px)'}
                 className="inp-setting"
+                defaultValue={componentHeight === 300 ? '' : componentHeight}
               />
             </div>
           </li>
         </SettingContent>
       )}
+      {isModal && <AlertModal val={setIsModal} />}
     </SettingContainer>
   );
 };
