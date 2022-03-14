@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import { emojiMenus } from '../assets/data';
 
 export default function ListContainer({ title = 'available', width, height, fontSize = 'M' }) {
-  const [filtered, setFiltered] = useState(emojiMenus);
+  const [items, setItems] = useState(emojiMenus);
   const [filter, setFilter] = useState('');
+  const [selected, setSelected] = useState([]);
   const [size, setSize] = useState();
 
   const handleInput = ({ target: { value } }) => {
     setFilter(value);
+  };
+
+  const handleClick = (item) => {
+    setSelected((prev) => (prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]));
   };
 
   useEffect(() => {
@@ -25,24 +30,32 @@ export default function ListContainer({ title = 'available', width, height, font
   }, [fontSize]);
 
   useEffect(() => {
-    setFiltered(emojiMenus.filter((item) => item.name.includes(filter)));
+    setSelected([]);
+    setItems(emojiMenus.filter((item) => item.name.includes(filter)));
   }, [filter]);
 
   return (
-    <Container width={width} height={height}>
+    <Container width={width}>
       <Input type="text" onChange={handleInput} placeholder={'search'} />
       <Wrapper>
         <TextBox>
           <p>{title}</p>
         </TextBox>
-        <Ul>
-          {filtered.map((item) => {
-            return <Li key={item.id} size={size}>{`${item.emoji} ${item.name}`}</Li>;
+        <Ul height={height}>
+          {items.map((item) => {
+            return (
+              <Li
+                key={item.id}
+                size={size}
+                selected={selected.includes(item)}
+                onClick={() => handleClick(item)}
+              >{`${item.emoji} ${item.name}`}</Li>
+            );
           })}
         </Ul>
         <CountBox>
           <p>
-            {0}/{filtered.length}
+            {selected.length}/{items.length}
           </p>
         </CountBox>
       </Wrapper>
@@ -52,10 +65,10 @@ export default function ListContainer({ title = 'available', width, height, font
 
 const Container = styled.div`
   width: ${({ width }) => (width ? width : 200)}px;
-  heigth: ${({ height }) => (height ? height : 300)}px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: auto;
 `;
 
 const Input = styled.input`
@@ -69,6 +82,7 @@ const Input = styled.input`
 const Wrapper = styled.div`
   border: 1px solid lightgray;
   border-radius: 5px;
+  height: 100%;
 `;
 
 const TextBox = styled.div`
@@ -82,8 +96,9 @@ const TextBox = styled.div`
 
 const Ul = styled.ul`
   list-style: none;
+  height: ${({ height }) => (height ? height : 300)}px;
+
   overflow-y: scroll;
-  height: 500px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -93,6 +108,7 @@ const Li = styled.li`
   padding: 10px 0 10px 15px;
   font-size: ${({ size }) => size * 16}px;
   border-bottom: 1px solid lightgray;
+  ${({ selected }) => (selected ? 'background-color: skyblue;' : '')}
   cursor: pointer;
   &:hover {
     background-color: skyblue;
