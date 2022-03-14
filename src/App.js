@@ -1,7 +1,7 @@
 import GlobalStyle from './GlobalStyle';
 import Homepage from './pages/Homepage';
 import ListContainer from './components/ListContainer';
-import ItemMoveButton from './components/ItemMoveButton/ItemMoveButton';
+import FakeHomePage from './components/ItemMoveButton/FakeHomePage';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <GlobalStyle />
       {/*<Homepage />*/}
       {/*<ListContainer />*/}
-      <ItemMoveButton />
+      <FakeHomePage />
     </>
   );
 }
