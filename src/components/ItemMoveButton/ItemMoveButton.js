@@ -11,6 +11,7 @@ import {
 import { leftListState, rightListState } from '../../atom/objectAtom';
 import { useRecoilState } from 'recoil';
 import { emojiMenus } from '../../assets/data';
+import CountSelectedItem from './CountSelectedItem';
 
 const ItemMoveButton = () => {
   const [leftList, setLeftList] = useRecoilState(leftListState);
@@ -94,6 +95,7 @@ const ItemMoveButton = () => {
 
   return (
     <>
+      <CountSelectedItem selectedItemsLength={selectedItems.length} direction="left" />
       {rightList.map((option) => (
         <p key={option.id}>{option.name}</p>
       ))}
