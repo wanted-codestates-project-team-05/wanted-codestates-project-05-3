@@ -1,42 +1,71 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-const Setting = (props) => { 
+import { useRecoilState } from 'recoil';
+import {
+  titleOnOffState, // 타이틀 on/off 값 true OR false
+  oneDragOnOffState, // 하나씩 옮기기 on/off 값 true OR false
+  searchOnOffState, // 검색 on/off 값 true OR false
+  itemNumOnOffState, // 아이템 개수 on/off 값 true OR false
+} from '../atom/onoffAtom';
+import {
+  componentHeightState, // 설정 높이값
+  componentWidthState, // 설정 너비값
+  itemSizeState, // 아이템 사이즈 조절
+  leftTitleNameState, // 왼쪽 타이틀 값
+  rightTitleNameState, // 오른쪽 타이틀 값
+} from '../atom/objectAtom';
+
+const Setting = () => {
   const [isSetting, setIsSetting] = useState(false);
-  const [checkedInputs, setCheckedInputs] = useState('S');
-  const [currentTitle, setCurrentTitle] = useState(true);
-  const [currentSearch, setCurrentSearch] = useState(true);
-  const [currentOneMove, setCurrentOneMove] = useState(true);
-  const [currentitemNum, setCurrentitemNum] = useState(true);
+
+  const [title, setTitle] = useRecoilState(titleOnOffState);
+  const [leftTitleName] = useRecoilState(leftTitleNameState);
+  const [rightTitleName] = useRecoilState(rightTitleNameState);
+  const [search, setSearch] = useRecoilState(searchOnOffState);
+  const [oneDrag, setOneDrag] = useRecoilState(oneDragOnOffState);
+  const [itemNum, setItemNum] = useRecoilState(itemNumOnOffState);
+  const [itemSize, setItemSize] = useRecoilState(itemSizeState);
+  const [componentWidth, setComponentWidth] = useRecoilState(componentWidthState);
+  const [componentHeight, setComponentHeight] = useRecoilState(componentHeightState);
 
   const sizeOptions = [
-    {label: "XS", value: '15px'},
-    {label: "S", value: '20px'},
-    {label: "M", value: '25px'}
-  ]
+    { label: 'XS', value: '16' },
+    { label: 'S', value: '20' },
+    { label: 'M', value: '24' },
+  ];
 
-  const handlersSetBtn = () => { 
-    setIsSetting(!isSetting);
-  }
-
-  const handlerTitleCurrent = () => { 
-    setCurrentTitle(!currentTitle)
-  }
+  const handlerTitleCurrent = () => {
+    setTitle(!title);
+  };
 
   const handlerSearchCurrent = () => {
-    setCurrentSearch(!currentSearch);
+    setSearch(!search);
   };
-  
-  const handlerMoveCurrent = () => {
-    setCurrentOneMove(!currentOneMove);
+
+  const handlerDragCurrent = () => {
+    setOneDrag(!oneDrag);
   };
 
   const handlerItemCurrent = () => {
-    setCurrentitemNum(!currentitemNum);
+    setItemNum(!itemNum);
+  };
+
+  const handlerChangeComponentWidth = (e) => {
+    setComponentWidth(e.target.value);
+  };
+
+  const handlerChangeComponentHight = (e) => {
+    setComponentHeight(e.target.value);
   };
 
   return (
     <SettingContainer>
-      <button className="set-btn" onClick={handlersSetBtn}>
+      <button
+        className="set-btn"
+        onClick={() => {
+          setIsSetting(!isSetting);
+        }}
+      >
         <svg fill="#777777" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px">
           <path d="M19.9,13.3C20,12.8,20,12.4,20,12s0-0.8-0.1-1.3L21.8,9l-2.3-4l-2.4,0.8c-0.7-0.5-1.4-1-2.2-1.3L14.3,2H9.7L9.2,4.5	C8.3,4.8,7.6,5.3,6.9,5.8L4.5,5L2.2,9l1.9,1.7C4,11.2,4,11.6,4,12c0,0.4,0,0.8,0.1,1.3L2.2,15l2.3,4l2.4-0.8l0,0	c0.7,0.5,1.4,1,2.2,1.3L9.7,22h4.7l0.5-2.5c0.8-0.3,1.6-0.7,2.2-1.3l0,0l2.4,0.8l2.3-4L19.9,13.3L19.9,13.3z M12,16	c-2.2,0-4-1.8-4-4c0-2.2,1.8-4,4-4c2.2,0,4,1.8,4,4C16,14.2,14.2,16,12,16z" />
         </svg>
@@ -47,34 +76,34 @@ const Setting = (props) => {
             <span className="set-txt">타이틀</span>
             <button
               onClick={handlerTitleCurrent}
-              className={currentTitle ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={!title ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
-          {currentTitle && (
+          {!title && (
             <li>
-              <input placeholder="available options" className="inp-setting" />
-              <input placeholder="selected options" className="inp-setting" />
+              <input valau={leftTitleName} placeholder="available options" className="inp-setting" />
+              <input valau={rightTitleName} placeholder="selected options" className="inp-setting" />
             </li>
           )}
           <li>
             <span className="set-txt">검색</span>
             <button
               onClick={handlerSearchCurrent}
-              className={currentSearch ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={!search ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
             <span className="set-txt">하나씩만 옮기기</span>
             <button
-              onClick={handlerMoveCurrent}
-              className={currentOneMove ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              onClick={handlerDragCurrent}
+              className={!oneDrag ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
             <span className="set-txt">아이템 갯수 표시</span>
             <button
               onClick={handlerItemCurrent}
-              className={currentitemNum ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={!itemNum ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
@@ -86,8 +115,8 @@ const Setting = (props) => {
                   id={item.label}
                   className="checkbox-size"
                   type="radio"
-                  checked={checkedInputs === item.label}
-                  onChange={(e) => setCheckedInputs(e.target.name)}
+                  checked={itemSize === item.value}
+                  onChange={(e) => setItemSize(e.target.value)}
                   name={item.label}
                   value={item.value}
                 />
@@ -96,17 +125,29 @@ const Setting = (props) => {
           </li>
           <li>
             <div>
-              <input type="text" maxlength="3" className="inp-setting" />
+              <input
+                type="text"
+                maxLength="3"
+                onChange={handlerChangeComponentWidth}
+                placeholder={'가로 ( ' + componentWidth + 'px, 최소 크키 180px)'}
+                className="inp-setting"
+              />
             </div>
             <div>
-              <input type="text" maxlength="3" className="inp-setting" />
+              <input
+                type="text"
+                maxLength="3"
+                onChange={handlerChangeComponentHight}
+                placeholder={'세로 (' + componentHeight + 'px, 최소 크기 300px)'}
+                className="inp-setting"
+              />
             </div>
           </li>
         </SettingContent>
       )}
     </SettingContainer>
   );
-}
+};
 
 const SettingContainer = styled.div`
   position: absolute;
@@ -114,7 +155,7 @@ const SettingContainer = styled.div`
   right: 350px;
   .set-btn {
     cursor: pointer;
-    border: 1px solid rgb(204, 204, 204);
+    border: 1px solid lightgray;
     border-radius: 5px;
     padding: 4px 8px;
   }
@@ -125,16 +166,22 @@ const SettingContent = styled.ul`
   top: 40px;
   right: 1px;
   width: 220px;
-  border: 1px solid rgb(204, 204, 204);
+  border: 1px solid lightgray;
   border-radius: 5px;
   li {
     overflow: hidden;
     padding: 10px;
-    border-bottom: 1px solid rgb(204, 204, 204);
-    button {}
+    border-bottom: 1px solid lightgray;
+    &:last-child {
+      border-bottom: none;
+    }
+    button {
+      cursor: pointer;
+    }
     .inp-setting {
+      width: 93%;
       padding: 5px;
-      border: 1px solid rgb(204, 204, 204);
+      border: 1px solid lightgray;
       border-radius: 5px;
       &:first-child {
         margin-bottom: 5px;
@@ -158,7 +205,6 @@ const SettingContent = styled.ul`
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      cursor: pointer;
     }
     .switch-btn.btn-on {
       background: #01ae01;
