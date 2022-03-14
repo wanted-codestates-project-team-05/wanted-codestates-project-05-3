@@ -19,40 +19,16 @@ const ItemMoveButton = () => {
 
   const [selectedItems, setSelectedItems] = useState([
     {
-      id: 46,
-      topId: 4,
-      code: 'NORMALIZER',
-      name: '정규화 파서',
-      nameEn: 'Normalizer',
-      nameKo: '정규화 파서',
-      route: '/normalizer',
+      id: 19,
+      topId: 6,
+      code: 'EXPLANATION',
+      name: '소명',
+      nameEn: 'Explanation',
+      nameKo: '소명',
+      route: '/explanation',
       ordinal: 3,
       visible: true,
-      emoji: '🚌',
-    },
-    {
-      id: 9,
-      topId: 4,
-      code: 'SCHEMA',
-      name: '정규화',
-      nameEn: 'Schema',
-      nameKo: '정규화',
-      route: '/schema',
-      ordinal: 4,
-      visible: true,
       emoji: '🚗',
-    },
-    {
-      id: 10,
-      topId: 4,
-      code: 'CONNECTOR_MODEL',
-      name: '수집 모델',
-      nameEn: 'Connector Model',
-      nameKo: '수집 모델',
-      route: '/connector-model',
-      ordinal: 5,
-      visible: true,
-      emoji: '🚠',
     },
   ]);
   const handleInitializationClick = () => {
@@ -92,13 +68,24 @@ const ItemMoveButton = () => {
       setRightList([]);
     }
   };
+  const handleSelected = (option) => {
+    if (selectedItems.includes(option)) {
+      setSelectedItems((selected) => selected.filter((item) => item.id !== option.id));
+    } else {
+      setSelectedItems((selected) => [...selected, option]);
+    }
+  };
 
   return (
     <>
       <CountSelectedItem selectedItemsLength={selectedItems.length} direction="left" />
-      {rightList.map((option) => (
-        <p key={option.id}>{option.name}</p>
-      ))}
+      <ul>
+        {rightList.map((option) => (
+          <Item key={option.id} selected={selectedItems.includes(option)} onClick={() => handleSelected(option)}>
+            {option.name}
+          </Item>
+        ))}
+      </ul>
       {console.log(rightList, 'rightList2')}
       {console.log(leftList, 'leftList2')}
       <Wrap>
@@ -136,4 +123,7 @@ const Button = styled.button`
   border-radius: 3px;
   width: 30px;
   height: 30px;
+`;
+const Item = styled.li`
+  background-color: ${({ selected }) => (selected ? 'lightGrey' : 'white')};
 `;
