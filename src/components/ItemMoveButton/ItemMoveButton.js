@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -91,4 +91,5 @@ const Button = styled.button`
   border-radius: 3px;
   width: 30px;
   height: 30px;
+  cursor: pointer;
 `;

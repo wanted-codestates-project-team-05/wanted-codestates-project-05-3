@@ -3,24 +3,30 @@ import ItemMoveButton from './ItemMoveButton';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { leftListState, rightListState } from '../../atom/objectAtom';
+import { oneDragOnOffState } from '../../atom/onoffAtom';
 
 const FakeHomePage = () => {
   const [leftList, setLeftList] = useRecoilState(leftListState);
   const [rightList, setRightList] = useRecoilState(rightListState);
+  const [oneDrag, setOneDrag] = useRecoilState(oneDragOnOffState);
   const handleSelected = (e, option) => {
-    if (e.shiftKey) {
-      const targetItems = e.target.parentElement.id;
-      if (targetItems === 'left') {
-        setSelectedItems(leftList);
-      } else if (targetItems === 'right') {
-        setSelectedItems(rightList);
+    if (!oneDrag) {
+      if (e.shiftKey) {
+        const targetItems = e.target.parentElement.id;
+        if (targetItems === 'left') {
+          setSelectedItems(leftList);
+        } else if (targetItems === 'right') {
+          setSelectedItems(rightList);
+        }
+      } else {
+        if (selectedItems.includes(option)) {
+          setSelectedItems((selected) => selected.filter((item) => item.id !== option.id));
+        } else {
+          setSelectedItems((selected) => [...selected, option]);
+        }
       }
     } else {
-      if (selectedItems.includes(option)) {
-        setSelectedItems((selected) => selected.filter((item) => item.id !== option.id));
-      } else {
-        setSelectedItems((selected) => [...selected, option]);
-      }
+      setSelectedItems([option]);
     }
   };
   const [selectedItems, setSelectedItems] = useState([]);
