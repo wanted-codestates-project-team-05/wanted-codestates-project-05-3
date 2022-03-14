@@ -52,7 +52,7 @@ export default function ListContainer({ title = 'available', width, height, font
                 key={item.id}
                 size={size}
                 selected={selected.includes(item)}
-                // onClick={() => handleClick(item)}
+                onClick={() => handleClick(item)}
                 data-position={index}
                 draggable={true}
                 onDragStart={onDragStart}
