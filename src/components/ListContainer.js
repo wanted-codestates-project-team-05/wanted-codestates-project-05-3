@@ -8,7 +8,7 @@ export default function ListContainer({ title = 'available', width, height, font
   const [filter, setFilter] = useState('');
   const [selected, setSelected] = useState([]);
   const [size, setSize] = useState();
-  const { onDragStart, onDragOver, onDragLeave, onDrop } = DragToReorderList({
+  const { onDragStart, onDragOver, onDragLeave, onDragEnter, onDragEnd, onDrop } = DragToReorderList({
     items,
     setItems,
   });
@@ -58,7 +58,10 @@ export default function ListContainer({ title = 'available', width, height, font
                 onDragStart={onDragStart}
                 onDragOver={onDragOver}
                 onDragLeave={onDragLeave}
+                onDragEnter={onDragEnter}
+                onDragEnd={onDragEnd}
                 onDrop={onDrop}
+                className="draggable"
               >{`${item.emoji} ${item.name}`}</Li>
             );
           })}
@@ -125,6 +128,10 @@ const Li = styled.li`
   }
   &:last-child {
     border-bottom: none;
+  }
+  &.over {
+    transform: scale(1.1, 1.1);
+    background-color: #00a8ff;
   }
 `;
 
