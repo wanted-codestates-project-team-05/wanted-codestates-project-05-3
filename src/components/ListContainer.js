@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-<<<<<<< HEAD
 import { componentHeightState, componentWidthState, itemSizeState } from '../atom/objectAtom';
 import { itemNumOnOffState, oneDragOnOffState, searchOnOffState } from '../atom/onoffAtom';
-=======
-import { emojiMenus } from '../assets/data';
-import { componentHeightState, componentWidthState, itemSizeState } from '../atom/objectAtom';
-import { oneDragOnOffState } from '../atom/onoffAtom';
->>>>>>> e080d05 (feat: recoil connect ListContainer)
 import { DragToReorderList } from '../hooks/DragAndDrop';
 import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 
-<<<<<<< HEAD
 export default function ListContainer({ list, selected, setSelected, title }) {
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState('');
@@ -27,20 +20,6 @@ export default function ListContainer({ list, selected, setSelected, title }) {
   const { onDragStart, onDragOver, onDragLeave, onDragEnter, onDragEnd, onDrop } = DragToReorderList({
     filtered,
     setFiltered,
-=======
-export default function ListContainer({ list = emojiMenus, title = 'available' }) {
-  const [items, setItems] = useState(list);
-  const [filter, setFilter] = useState('');
-  const [selected, setSelected] = useState([]);
-  const size = useRecoilValue(itemSizeState);
-  const width = useRecoilValue(componentWidthState);
-  const height = useRecoilValue(componentHeightState);
-  const draggable = useRecoilValue(oneDragOnOffState);
-
-  const { onDragStart, onDragOver, onDragLeave, onDrop } = DragToReorderList({
-    items,
-    setItems,
->>>>>>> e080d05 (feat: recoil connect ListContainer)
   });
 
   const handleInput = ({ target: { value } }) => {
@@ -103,6 +82,14 @@ export default function ListContainer({ list = emojiMenus, title = 'available' }
     setInitialSelect(item);
   };
 
+  // useEffect(() => {
+  //   console.log(selected);
+  // }, [selected]);
+
+  useEffect(() => {
+    console.log(list);
+  }, [list]);
+
   useEffect(() => {
     setSelected([]);
     setFiltered(list.filter((item) => item?.name.includes(filter)));
@@ -123,7 +110,7 @@ export default function ListContainer({ list = emojiMenus, title = 'available' }
                 size={size}
                 selected={selected.includes(item)}
                 data-position={index}
-                draggable={!draggable}
+                draggable={true}
                 onClick={(e) => handleClick(e, item)}
                 onDragStart={onDragStart}
                 onDragOver={onDragOver}
@@ -195,8 +182,11 @@ const Li = styled.li`
   &:last-child {
     border-bottom: none;
   }
+<<<<<<< HEAD
   &.over {
     transform: scale(1.1, 1.1);
     background-color: #00a8ff;
   }
+=======
+>>>>>>> 1d8eaab (feat: homepage...)
 `;
