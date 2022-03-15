@@ -20,7 +20,7 @@ import {
 	rightTitleNameState,     // 오른쪽 타이틀 값
 } from './objectAtom';
 
-import useSetLocalStorage from '../utils/useSetLocalStorage';
+import useSetLocalStorage from '../hooks/useSetLocalStorage';
 
 export const TestCase = () => {
 
