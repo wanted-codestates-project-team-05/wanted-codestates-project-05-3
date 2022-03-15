@@ -11,6 +11,7 @@ export const DragToReorderList = ({ items, setItems }) => {
   });
   // Item을 잡기 시작했을 때 발생 (시작)
   const onDragStart = (event) => {
+    event.currentTarget.style.opacity = '0.4';
     const initialPosition = parseInt(event.currentTarget.dataset.position);
     setDragAndDrop({
       ...dragAndDrop,
@@ -48,17 +49,31 @@ export const DragToReorderList = ({ items, setItems }) => {
     });
   };
   // Item이 범위를 벗어났을 때 발생
-  const onDragLeave = () => {
+  const onDragLeave = (event) => {
+    event.currentTarget.classList.remove('over');
     setDragAndDrop({
       ...dragAndDrop,
       draggedTo: null,
     });
   };
-
+  // 잡은 Item이 다른 Item이랑 겹쳤을 때 발생<겹쳐졌을 때>
+  const onDragEnter = (event) => {
+    event.currentTarget.classList.add('over');
+  };
+  // 잡은 Item을 놓았을 때 발생
+  const onDragEnd = (event) => {
+    event.currentTarget.style.opacity = '1';
+    const listItens = document.querySelectorAll('.draggable');
+    listItens.forEach((item) => {
+      item.classList.remove('over');
+    });
+  };
   return {
     onDragStart,
     onDragOver,
     onDragLeave,
+    onDragEnter,
+    onDragEnd,
     onDrop,
   };
 };
