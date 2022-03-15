@@ -9,7 +9,7 @@ import {
   faArrowRotateRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { leftListState, rightListState } from '../../atom/objectAtom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { emojiMenus } from '../../assets/data';
 
 const ItemMoveButton = ({ selectedLeft, setSelectedLeft, selectedRight, setSelectedRight }) => {
