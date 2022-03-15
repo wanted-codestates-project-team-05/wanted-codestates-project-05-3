@@ -6,7 +6,7 @@ import { itemNumOnOffState, oneDragOnOffState } from '../atom/onoffAtom';
 import { DragToReorderList } from '../hooks/DragAndDrop';
 import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 
-export default function ListContainer({ list, setList, selected, setSelected, title }) {
+export default function ListContainer({ list, setList, selected, setSelected, title, direction }) {
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState('');
   const [selected, setSelected] = useState([]);
@@ -14,8 +14,10 @@ export default function ListContainer({ list, setList, selected, setSelected, ti
   const size = useRecoilValue(itemSizeState);
   const width = useRecoilValue(componentWidthState);
   const height = useRecoilValue(componentHeightState);
-  const multiSelect = useRecoilValue(oneDragOnOffState);
-  const countView = useRecoilValue(itemNumOnOffState);
+  // const multiSelect = useRecoilValue(oneDragOnOffState);
+  // const countView = useRecoilValue(itemNumOnOffState);
+  const multiSelect = true;
+  const countView = true;
 
   const { onDragStart, onDragOver, onDragLeave, onDragEnter, onDragEnd, onDrop } = DragToReorderList({
     items,
@@ -87,7 +89,9 @@ export default function ListContainer({ list, setList, selected, setSelected, ti
             );
           })}
         </Ul>
-        {countView && <CountSelectedItem allCount={filtered.length} selectedItemsLength={selected.length} />}
+        {countView && (
+          <CountSelectedItem direction={direction} allCount={filtered.length} selectedItemsLength={selected.length} />
+        )}
       </Wrapper>
     </Container>
   );
