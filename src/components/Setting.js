@@ -176,10 +176,10 @@ const Setting = () => {
                   id={item.label}
                   className="checkbox-size"
                   type="radio"
-                  checked={itemSize === item.value.toString()}
+                  checked={itemSize.toString() === item.value.toString()}
                   onChange={(e) => setItemSize(e.target.value)}
                   name={item.label}
-                  value={item.value}
+                  defaultValue={item.value}
                 />
               </label>
             ))}
@@ -214,9 +214,9 @@ const Setting = () => {
 };
 
 const SettingContainer = styled.div`
-  position: absolute;
+  position: fixed;
   top: 70px;
-  right: 250px;
+  left: calc(100% - 23%);
   .set-btn {
     cursor: pointer;
     border: 1px solid lightgray;
