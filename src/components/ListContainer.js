@@ -6,7 +6,7 @@ import { itemNumOnOffState, oneDragOnOffState } from '../atom/onoffAtom';
 import { DragToReorderList } from '../hooks/DragAndDrop';
 import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 
-export default function ListContainer({ list, selected, setSelected, title, direction }) {
+export default function ListContainer({ list, selected, setSelected, title }) {
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState('');
   const [initialSelect, setInitialSelect] = useState();
@@ -82,10 +82,6 @@ export default function ListContainer({ list, selected, setSelected, title, dire
   };
 
   useEffect(() => {
-    console.log(list);
-  }, [list]);
-
-  useEffect(() => {
     setSelected([]);
     setFiltered(list.filter((item) => item?.name.includes(filter)));
   }, [filter, list, setSelected]);
@@ -118,9 +114,7 @@ export default function ListContainer({ list, selected, setSelected, title, dire
             );
           })}
         </Ul>
-        {countView && (
-          <CountSelectedItem direction={direction} allCount={filtered.length} selectedItemsLength={selected.length} />
-        )}
+        {countView && <CountSelectedItem allCount={filtered.length} selectedItemsLength={selected.length} />}
       </Wrapper>
     </Container>
   );

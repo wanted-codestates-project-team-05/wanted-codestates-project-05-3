@@ -28,27 +28,9 @@ export default function Homepage() {
   return (
     <Container>
       <Wrapper>
-        <ListContainer
-          list={leftList}
-          setList={setLeftList}
-          selected={selectedLeft}
-          setSelected={setSelectedLeft}
-          title={leftTitleName}
-        />
-        <ItemMoveButton
-          selectedLeft={selectedLeft}
-          setSelectedLeft={setSelectedLeft}
-          selectedRight={selectedRight}
-          setSelectedRight={setSelectedRight}
-        />
-        <ListContainer
-          list={rightList}
-          setList={setRightList}
-          selected={selectedRight}
-          setSelected={setSelectedRight}
-          title={rightTitleName}
-          direction={'right'}
-        />
+        <ListContainer list={leftList} selected={selected} setSelected={setSelected} title={leftTitleName} />
+        <ItemMoveButton selectedItems={selected} setSelectedItems={setSelected} />
+        <ListContainer list={rightList} selected={selected} setSelected={setSelected} title={rightTitleName} />
       </Wrapper>
     </Container>
   );
