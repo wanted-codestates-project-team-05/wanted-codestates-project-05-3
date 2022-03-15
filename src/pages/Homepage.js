@@ -48,7 +48,6 @@ export default function Homepage() {
           selected={selectedRight}
           setSelected={setSelectedRight}
           title={rightTitleName}
-          direction={'right'}
         />
       </Wrapper>
       <Setting />
