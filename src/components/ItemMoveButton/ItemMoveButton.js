@@ -25,7 +25,7 @@ const ItemMoveButton = ({ selectedItems, setSelectedItems }) => {
     setLeftList((list) =>
       list.filter((option) => {
         let result = true;
-        selectedItems.forEach((item) => {
+        selectedItems?.forEach((item) => {
           if (option.id === item.id) result = false;
         });
         return result;
@@ -38,7 +38,7 @@ const ItemMoveButton = ({ selectedItems, setSelectedItems }) => {
     setRightList((rightList) =>
       rightList.filter((option) => {
         let result = true;
-        selectedItems.forEach((item) => {
+        selectedItems?.forEach((item) => {
           if (option.id === item.id) result = false;
         });
         return result;

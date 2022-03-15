@@ -7,11 +7,15 @@ function App() {
   return (
     <>
       <GlobalStyle />
+<<<<<<< HEAD
       {/*<Homepage />*/}
       {/*<ListContainer />*/}
       {/* <FakeHomePage /> */}
       <ListContainer />
       <Setting />
+=======
+      <Homepage />
+>>>>>>> 1d8eaab (feat: homepage...)
     </>
   );
 }
