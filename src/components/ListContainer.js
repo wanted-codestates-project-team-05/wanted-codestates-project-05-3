@@ -87,7 +87,9 @@ export default function ListContainer({ list, selected, setSelected, title }) {
             );
           })}
         </Ul>
-        {countView && <CountSelectedItem allCount={filtered.length} selectedItemsLength={selected.length} />}
+        {countView && (
+          <CountSelectedItem direction={direction} allCount={filtered.length} selectedItemsLength={selected.length} />
+        )}
       </Wrapper>
     </Container>
   );
