@@ -6,7 +6,7 @@ import { itemNumOnOffState, oneDragOnOffState } from '../atom/onoffAtom';
 import { DragToReorderList } from '../hooks/DragAndDrop';
 import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 
-export default function ListContainer({ list, selected, setSelected, title }) {
+export default function ListContainer({ list, selected, setSelected, title, direction }) {
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState('');
   const [initialSelect, setInitialSelect] = useState();
@@ -24,38 +24,6 @@ export default function ListContainer({ list, selected, setSelected, title }) {
   const handleInput = ({ target: { value } }) => {
     setFilter(value);
   };
-
-  // const handleSelected = (e, option) => {
-  //   if (!multiSelect) {
-  //     setSelected([item]);
-  //     setInitialSelect(item);
-  //     return;
-  //   }
-  //   if (e.shiftKey) {
-  //     const index = list.findIndex((value) => value === initialSelect);
-  //     const clickedIndex = list.findIndex((value) => value === option);
-  //     if (index <= clickedIndex) setSelected(list.slice(index, clickedIndex + 1));
-  //     if (index > clickedIndex) setSelected(list.slice(clickedIndex, index + 1));
-  //     return;
-  //   }
-  //   if (e.nativeEvent.ctrlKey) {
-  //     setSelected((prev) =>
-  //       prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]
-  //     );
-  //     setInitialSelect(item);
-  //     return;
-  //   }
-  //     else {
-  //       if (selected.includes(option)) {
-  //         setSelected((selected) => selected.filter((item) => item.id !== option.id));
-  //       } else {
-  //         setSelected((selected) => [...selected, option]);
-  //       }
-  //     }
-  //   }
-  //   setSelected([item]);
-  //   setInitialSelect(item);
-  // };
 
   const handleClick = (e, item) => {
     if (!multiSelect) {
