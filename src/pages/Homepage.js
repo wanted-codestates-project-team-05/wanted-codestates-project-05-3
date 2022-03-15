@@ -28,7 +28,6 @@ export default function Homepage() {
 
   return (
     <Container>
-      <Setting />
       <Wrapper>
         <ListContainer
           list={leftList}
@@ -52,6 +51,7 @@ export default function Homepage() {
           direction={'right'}
         />
       </Wrapper>
+      <Setting />
     </Container>
   );
 }
