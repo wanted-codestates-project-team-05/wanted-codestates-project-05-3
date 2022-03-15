@@ -21,8 +21,8 @@ const Setting = () => {
   const [isModal, setIsModal] = useState(false);
 
   const [title, setTitle] = useRecoilState(titleOnOffState);
-  const [leftTitleName] = useRecoilState(leftTitleNameState);
-  const [rightTitleName] = useRecoilState(rightTitleNameState);
+  const [leftTitleName, setLeftTitleName] = useRecoilState(leftTitleNameState);
+  const [rightTitleName, setRightTitleName] = useRecoilState(rightTitleNameState);
   const [search, setSearch] = useRecoilState(searchOnOffState);
   const [oneDrag, setOneDrag] = useRecoilState(oneDragOnOffState);
   const [itemNum, setItemNum] = useRecoilState(itemNumOnOffState);
@@ -31,9 +31,9 @@ const Setting = () => {
   const [componentHeight, setComponentHeight] = useRecoilState(componentHeightState);
 
   const sizeOptions = [
-    { label: 'XS', value: '16' },
-    { label: 'S', value: '20' },
-    { label: 'M', value: '24' },
+    { label: 'XS', value: 16 },
+    { label: 'S', value: 20 },
+    { label: 'M', value: 24 },
   ];
 
   const handlerTitleCurrent = () => {
@@ -78,6 +78,27 @@ const Setting = () => {
     }
   };
 
+  const handlerChangeLeftTitle = (e) => { 
+    if (e.target.value === '') {
+      e.target.placeholder = '왼쪽 타이틀을 입력하세요.';
+    } else if (e.target.value === 'available options') {
+      e.target.value = ''
+    } else { 
+      setLeftTitleName(e.target.value);
+    }
+  }
+
+  const handlerChangeRightTitle = (e) => {
+    if (e.target.value === '') {
+      e.target.placeholder = '오른쯕 타이틀을 입력하세요.';
+    } else if (e.target.value === 'selected options') {
+      e.target.value = '';
+    } else {
+      setRightTitleName(e.target.value);
+    }
+    
+  };
+
   return (
     <SettingContainer>
       <button
@@ -101,8 +122,28 @@ const Setting = () => {
           </li>
           {title && (
             <li>
-              <input defaultValue={leftTitleName} placeholder="available options" className="inp-setting" />
-              <input defaultValue={rightTitleName} placeholder="selected options" className="inp-setting" />
+              <input
+                defaultValue={leftTitleName}
+                placeholder="available options"
+                onChange={handlerChangeLeftTitle}
+                className="inp-setting"
+                onFocus={(e) => {
+                  if (e.target.value === 'available options') {
+                    e.target.value = '';
+                  }
+                }}
+              />
+              <input
+                defaultValue={rightTitleName}
+                placeholder="selected options"
+                onChange={handlerChangeRightTitle}
+                className="inp-setting"
+                onFocus={(e) => {
+                  if (e.target.value === 'selected options') {
+                    e.target.value = '';
+                  }
+                }}
+              />
             </li>
           )}
           <li>
@@ -135,7 +176,7 @@ const Setting = () => {
                   id={item.label}
                   className="checkbox-size"
                   type="radio"
-                  checked={itemSize === item.value}
+                  checked={itemSize === item.value.toString()}
                   onChange={(e) => setItemSize(e.target.value)}
                   name={item.label}
                   value={item.value}
