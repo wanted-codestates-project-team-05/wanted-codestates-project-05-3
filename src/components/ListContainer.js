@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { emojiMenus } from '../assets/data';
+import { componentHeightState, componentWidthState, itemSizeState } from '../atom/objectAtom';
+import { oneDragOnOffState } from '../atom/onoffAtom';
 import { DragToReorderList } from '../hooks/DragAndDrop';
 
-export default function ListContainer({ title = 'available', width, height, fontSize = 'M' }) {
-  const [items, setItems] = useState(emojiMenus);
+export default function ListContainer({ list = emojiMenus, title = 'available' }) {
+  const [items, setItems] = useState(list);
   const [filter, setFilter] = useState('');
   const [selected, setSelected] = useState([]);
   const [size, setSize] = useState();
@@ -12,6 +15,7 @@ export default function ListContainer({ title = 'available', width, height, font
     items,
     setItems,
   });
+
   const handleInput = ({ target: { value } }) => {
     setFilter(value);
   };
@@ -32,22 +36,9 @@ export default function ListContainer({ title = 'available', width, height, font
   };
 
   useEffect(() => {
-    switch (fontSize) {
-      case 'XS':
-        setSize(0.6);
-        break;
-      case 'S':
-        setSize(0.8);
-        break;
-      default:
-        setSize(1);
-    }
-  }, [fontSize]);
-
-  useEffect(() => {
     setSelected([]);
-    setItems(emojiMenus.filter((item) => item.name.includes(filter)));
-  }, [filter]);
+    setItems(list.filter((item) => item.name.includes(filter)));
+  }, [filter, list]);
 
   return (
     <Container width={width}>
@@ -64,7 +55,7 @@ export default function ListContainer({ title = 'available', width, height, font
                 size={size}
                 selected={selected.includes(item)}
                 data-position={index}
-                draggable={true}
+                draggable={!draggable}
                 onClick={(e) => handleClick(e, item)}
                 onDragStart={onDragStart}
                 onDragOver={onDragOver}
@@ -130,7 +121,7 @@ const Ul = styled.ul`
 
 const Li = styled.li`
   padding: 10px 0 10px 15px;
-  font-size: ${({ size }) => size * 16}px;
+  font-size: ${({ size }) => size}px;
   border-bottom: 1px solid lightgray;
   ${({ selected }) => (selected ? 'background-color: skyblue;' : '')}
   cursor: pointer;
