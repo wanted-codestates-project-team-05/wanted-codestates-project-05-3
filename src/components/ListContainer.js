@@ -33,7 +33,7 @@ export default function ListContainer({ list, setList, selected, setSelected, ti
       setInitialSelect(item);
       return;
     }
-    if (e.nativeEvent.ctrlKey) {
+    if (e.nativeEvent.ctrlKey || e.metaKey) {
       setSelected((prev) =>
         prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]
       );
@@ -50,14 +50,6 @@ export default function ListContainer({ list, setList, selected, setSelected, ti
     setSelected([item]);
     setInitialSelect(item);
   };
-
-  // useEffect(() => {
-  //   console.log(selected);
-  // }, [selected]);
-
-  useEffect(() => {
-    console.log(list);
-  }, [list]);
 
   useEffect(() => {
     setSelected([]);
