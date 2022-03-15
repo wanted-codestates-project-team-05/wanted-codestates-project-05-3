@@ -27,7 +27,7 @@ export default function ListContainer({ list, selected, setSelected, title }) {
   };
 
   const handleClick = (e, item) => {
-    if (!multiSelect) {
+    if (multiSelect) {
       setSelected([item]);
       setInitialSelect(item);
       return;
@@ -40,10 +40,10 @@ export default function ListContainer({ list, selected, setSelected, title }) {
       return;
     }
     if (e.nativeEvent.shiftKey) {
-      const index = list.findIndex((value) => value === initialSelect);
-      const clickedIndex = list.findIndex((value) => value === item);
-      if (index <= clickedIndex) setSelected(list.slice(index, clickedIndex + 1));
-      if (index > clickedIndex) setSelected(list.slice(clickedIndex, index + 1));
+      const index = filtered.findIndex((value) => value === initialSelect);
+      const clickedIndex = filtered.findIndex((value) => value === item);
+      if (index <= clickedIndex) setSelected(filtered.slice(index, clickedIndex + 1));
+      if (index > clickedIndex) setSelected(filtered.slice(clickedIndex, index + 1));
       return;
     }
     setSelected([item]);
