@@ -70,7 +70,7 @@ export default function ListContainer({ list, selected, setSelected, title }) {
                 size={size}
                 selected={selected.includes(item)}
                 data-position={index}
-                draggable={!draggable}
+                draggable={true}
                 onClick={(e) => handleClick(e, item)}
                 onDragStart={onDragStart}
                 onDragOver={onDragOver}
