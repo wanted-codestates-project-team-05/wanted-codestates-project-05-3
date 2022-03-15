@@ -9,10 +9,10 @@ import {
   faArrowRotateRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { leftListState, rightListState } from '../../atom/objectAtom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { emojiMenus } from '../../assets/data';
 
-const ItemMoveButton = ({ selectedItems, setSelectedItems }) => {
+const ItemMoveButton = ({ selectedLeft, setSelectedLeft, selectedRight, setSelectedRight }) => {
   const [leftList, setLeftList] = useRecoilState(leftListState);
   const [rightList, setRightList] = useRecoilState(rightListState);
 
@@ -20,31 +20,31 @@ const ItemMoveButton = ({ selectedItems, setSelectedItems }) => {
     setLeftList(emojiMenus);
     setRightList([]);
   };
-  const handleMoveSelected = (selectedItems) => {
-    setRightList((list) => list.concat(selectedItems));
+  const handleMoveSelected = () => {
+    setRightList((list) => list.concat(selectedLeft));
     setLeftList((list) =>
       list.filter((option) => {
         let result = true;
-        selectedItems?.forEach((item) => {
+        selectedLeft?.forEach((item) => {
           if (option.id === item.id) result = false;
         });
         return result;
       })
     );
-    setSelectedItems([]);
+    setSelectedLeft([]);
   };
-  const handleMoveAvailable = (selectedItems) => {
-    setLeftList((leftList) => leftList.concat(selectedItems));
+  const handleMoveAvailable = () => {
+    setLeftList((leftList) => leftList.concat(selectedRight));
     setRightList((rightList) =>
       rightList.filter((option) => {
         let result = true;
-        selectedItems?.forEach((item) => {
+        selectedRight?.forEach((item) => {
           if (option.id === item.id) result = false;
         });
         return result;
       })
     );
-    setSelectedItems([]);
+    setSelectedRight([]);
   };
   const handleMoveAll = (direction) => {
     if (direction === 'right') {
@@ -58,20 +58,20 @@ const ItemMoveButton = ({ selectedItems, setSelectedItems }) => {
 
   return (
     <Wrap>
-      <Button>
-        <FontAwesomeIcon icon={faArrowRotateRight} onClick={handleInitializationClick} />
+      <Button onClick={handleInitializationClick}>
+        <FontAwesomeIcon icon={faArrowRotateRight} />
       </Button>
-      <Button>
-        <FontAwesomeIcon icon={faAngleDoubleLeft} onClick={() => handleMoveAll('right')} />
+      <Button onClick={() => handleMoveAll('right')}>
+        <FontAwesomeIcon icon={faAngleDoubleLeft} />
       </Button>
-      <Button>
-        <FontAwesomeIcon icon={faAngleDoubleRight} onClick={() => handleMoveAll('left')} />
+      <Button onClick={() => handleMoveAll('left')}>
+        <FontAwesomeIcon icon={faAngleDoubleRight} />
       </Button>
-      <Button>
-        <FontAwesomeIcon icon={faAngleLeft} onClick={() => handleMoveSelected(selectedItems)} />
+      <Button onClick={handleMoveSelected}>
+        <FontAwesomeIcon icon={faAngleLeft} />
       </Button>
-      <Button>
-        <FontAwesomeIcon icon={faAngleRight} onClick={() => handleMoveAvailable(selectedItems)} />
+      <Button onClick={handleMoveAvailable}>
+        <FontAwesomeIcon icon={faAngleRight} />
       </Button>
     </Wrap>
   );
@@ -82,6 +82,7 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   border-collapse: collapse;
+  width: 30px;
 `;
 const Button = styled.button`
   margin-top: -1px;
@@ -89,7 +90,6 @@ const Button = styled.button`
   background: white;
   border: 1px solid lightgray;
   border-radius: 3px;
-  width: 30px;
-  height: 30px;
   cursor: pointer;
+  height: 30px;
 `;
