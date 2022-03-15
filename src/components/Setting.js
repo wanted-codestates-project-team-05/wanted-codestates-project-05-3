@@ -3,23 +3,23 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import AlertModal from './AlertModal';
 import {
-  titleOnOffState, // 타이틀 on/off 값 true OR false
-  oneDragOnOffState, // 하나씩 옮기기 on/off 값 true OR false
-  searchOnOffState, // 검색 on/off 값 true OR false
-  itemNumOnOffState, // 아이템 개수 on/off 값 true OR false
+  titleOnOffState, 
+  oneDragOnOffState,
+  searchOnOffState,
+  itemNumOnOffState,
 } from '../atom/onoffAtom';
 import {
-  componentHeightState, // 설정 높이값
-  componentWidthState, // 설정 너비값
-  itemSizeState, // 아이템 사이즈 조절
-  leftTitleNameState, // 왼쪽 타이틀 값
-  rightTitleNameState, // 오른쪽 타이틀 값
+  componentHeightState, 
+  componentWidthState, 
+  itemSizeState,
+  leftTitleNameState, 
+  rightTitleNameState,
 } from '../atom/objectAtom';
 
 const Setting = () => {
   const [isSetting, setIsSetting] = useState(false);
   const [isModal, setIsModal] = useState(false);
- // const [inputValueNumber, setInputValueNumber] = useState("");
+
   const [title, setTitle] = useRecoilState(titleOnOffState);
   const [leftTitleName] = useRecoilState(leftTitleNameState);
   const [rightTitleName] = useRecoilState(rightTitleNameState);
@@ -96,10 +96,10 @@ const Setting = () => {
             <span className="set-txt">타이틀</span>
             <button
               onClick={handlerTitleCurrent}
-              className={!title ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={title ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
-          {!title && (
+          {title && (
             <li>
               <input defaultValue={leftTitleName} placeholder="available options" className="inp-setting" />
               <input defaultValue={rightTitleName} placeholder="selected options" className="inp-setting" />
@@ -109,21 +109,21 @@ const Setting = () => {
             <span className="set-txt">검색</span>
             <button
               onClick={handlerSearchCurrent}
-              className={!search ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={search ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
             <span className="set-txt">하나씩만 옮기기</span>
             <button
               onClick={handlerDragCurrent}
-              className={!oneDrag ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={oneDrag ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
             <span className="set-txt">아이템 갯수 표시</span>
             <button
               onClick={handlerItemCurrent}
-              className={!itemNum ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={itemNum ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
