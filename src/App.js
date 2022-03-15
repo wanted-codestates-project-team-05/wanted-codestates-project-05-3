@@ -1,16 +1,12 @@
 import GlobalStyle from './GlobalStyle';
 import Setting from './components/Setting';
-import ListContainer from './components/ListContainer';
-import FakeHomePage from './components/ItemMoveButton/FakeHomePage';
+import Homepage from './pages/Homepage';
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      {/*<Homepage />*/}
-      {/*<ListContainer />*/}
-      {/* <FakeHomePage /> */}
-      <ListContainer />
+      <Homepage />
       <Setting />
     </>
   );

@@ -9,7 +9,6 @@ import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 export default function ListContainer({ list, setList, selected, setSelected, title, direction }) {
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState('');
-  const [selected, setSelected] = useState([]);
   const [initialSelect, setInitialSelect] = useState();
   const size = useRecoilValue(itemSizeState);
   const width = useRecoilValue(componentWidthState);
@@ -20,8 +19,8 @@ export default function ListContainer({ list, setList, selected, setSelected, ti
   const countView = true;
 
   const { onDragStart, onDragOver, onDragLeave, onDragEnter, onDragEnd, onDrop } = DragToReorderList({
-    items,
-    setItems,
+    filtered,
+    setFiltered,
   });
 
   const handleInput = ({ target: { value } }) => {
