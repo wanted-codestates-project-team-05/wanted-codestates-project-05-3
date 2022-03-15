@@ -82,14 +82,6 @@ export default function ListContainer({ list, selected, setSelected, title }) {
     setInitialSelect(item);
   };
 
-  // useEffect(() => {
-  //   console.log(selected);
-  // }, [selected]);
-
-  useEffect(() => {
-    console.log(list);
-  }, [list]);
-
   useEffect(() => {
     console.log(list);
   }, [list]);
