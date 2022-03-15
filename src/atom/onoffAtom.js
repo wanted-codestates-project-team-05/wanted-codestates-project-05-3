@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 export const searchOnOffState = atom({
   key: 'searchOnOffState',
-  default: window.localStorage.getItem('searchOnOff') || false,
+  default: window.localStorage.getItem('searchOnOff') || true,
 });
 
 export const titleOnOffState = atom({

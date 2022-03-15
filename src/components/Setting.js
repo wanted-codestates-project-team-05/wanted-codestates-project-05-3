@@ -174,8 +174,8 @@ const Setting = () => {
 
 const SettingContainer = styled.div`
   position: absolute;
-  top: 80px;
-  right: 350px;
+  top: 70px;
+  right: 250px;
   .set-btn {
     cursor: pointer;
     border: 1px solid lightgray;

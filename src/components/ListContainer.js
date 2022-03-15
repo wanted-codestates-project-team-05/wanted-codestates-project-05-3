@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { componentHeightState, componentWidthState, itemSizeState } from '../atom/objectAtom';
-import { itemNumOnOffState, oneDragOnOffState } from '../atom/onoffAtom';
+import { itemNumOnOffState, oneDragOnOffState, searchOnOffState } from '../atom/onoffAtom';
 import { DragToReorderList } from '../hooks/DragAndDrop';
 import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 
@@ -15,6 +15,7 @@ export default function ListContainer({ list, selected, setSelected, title }) {
   const height = useRecoilValue(componentHeightState);
   const multiSelect = useRecoilValue(oneDragOnOffState);
   const countView = useRecoilValue(itemNumOnOffState);
+  const search = useRecoilValue(searchOnOffState);
 
   const { onDragStart, onDragOver, onDragLeave, onDragEnter, onDragEnd, onDrop } = DragToReorderList({
     filtered,
@@ -56,7 +57,7 @@ export default function ListContainer({ list, selected, setSelected, title }) {
 
   return (
     <Container width={width}>
-      <Input type="text" onChange={handleInput} placeholder={'search'} />
+      {search && <Input type="text" onChange={handleInput} placeholder={'search'} />}
       <Wrapper>
         <TextBox>
           <p>{title}</p>

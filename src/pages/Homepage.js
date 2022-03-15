@@ -4,6 +4,7 @@ import { leftListState, leftTitleNameState, rightListState, rightTitleNameState 
 import styled from 'styled-components';
 import ItemMoveButton from '../components/ItemMoveButton/ItemMoveButton';
 import ListContainer from '../components/ListContainer';
+import Setting from '../components/Setting';
 
 export default function Homepage() {
   const [leftList, setLeftList] = useRecoilState(leftListState);
@@ -27,6 +28,7 @@ export default function Homepage() {
 
   return (
     <Container>
+      <Setting />
       <Wrapper>
         <ListContainer
           list={leftList}
@@ -65,4 +67,5 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 70px;
 `;
