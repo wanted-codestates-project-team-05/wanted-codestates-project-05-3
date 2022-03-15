@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
-export const DragToReorderList = ({ items, setItems }) => {
+export const DragToReorderList = ({ filtered, setFiltered }) => {
   // dragAndDrop 초기값
   const [dragAndDrop, setDragAndDrop] = useState({
     draggedFrom: null,
     draggedTo: null,
-    isDragging: false,
     originalOrder: [],
     updatedOrder: [],
   });
@@ -16,10 +15,8 @@ export const DragToReorderList = ({ items, setItems }) => {
     setDragAndDrop({
       ...dragAndDrop,
       draggedFrom: initialPosition,
-      isDragging: true,
-      originalOrder: items,
+      originalOrder: filtered,
     });
-    event.dataTransfer.setData('text/html', '');
   };
   // 잡은 Item이 다른 Item과 겹쳐졌을 때 milli sec마다 발생함
   const onDragOver = (event) => {
@@ -38,9 +35,9 @@ export const DragToReorderList = ({ items, setItems }) => {
       });
     }
   };
-  // 잡은 Item을 적절한 곳에 놓았을 때 발생
+  // 드래그가 끝나서 드래그하던 객체를 놓는 장소에 위치한 객체에서 발생함
   const onDrop = (event) => {
-    setItems(dragAndDrop.updatedOrder);
+    setFiltered(dragAndDrop.updatedOrder);
     setDragAndDrop({
       ...dragAndDrop,
       draggedFrom: null,
@@ -56,7 +53,7 @@ export const DragToReorderList = ({ items, setItems }) => {
       draggedTo: null,
     });
   };
-  // 잡은 Item이 다른 Item이랑 겹쳤을 때 발생<겹쳐졌을 때>
+  // 잡은 Item이 다른 Item이랑 겹쳤을 때 발생
   const onDragEnter = (event) => {
     event.currentTarget.classList.add('over');
   };
