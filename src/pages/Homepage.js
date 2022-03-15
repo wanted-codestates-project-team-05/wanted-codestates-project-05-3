@@ -29,13 +29,7 @@ export default function Homepage() {
   return (
     <Container>
       <Wrapper>
-        <ListContainer
-          list={leftList}
-          setList={setLeftList}
-          selected={selectedLeft}
-          setSelected={setSelectedLeft}
-          title={leftTitleName}
-        />
+        <ListContainer list={leftList} selected={selectedLeft} setSelected={setSelectedLeft} title={leftTitleName} />
         <ItemMoveButton
           selectedLeft={selectedLeft}
           setSelectedLeft={setSelectedLeft}
@@ -44,7 +38,6 @@ export default function Homepage() {
         />
         <ListContainer
           list={rightList}
-          setList={setRightList}
           selected={selectedRight}
           setSelected={setSelectedRight}
           title={rightTitleName}

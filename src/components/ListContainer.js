@@ -138,9 +138,6 @@ const Li = styled.li`
   &:hover {
     background-color: skyblue;
   }
-  &:last-child {
-    border-bottom: none;
-  }
   &.over {
     transform: scale(1.1, 1.1);
     background-color: #00a8ff;
