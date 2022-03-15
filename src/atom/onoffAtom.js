@@ -12,10 +12,10 @@ export const titleOnOffState = atom({
 
 export const oneDragOnOffState = atom({
   key: 'oneDragOnOffState',
-	default: window.localStorage.getItem('oneDragOnOff') || false,
+	default: window.localStorage.getItem('oneDragOnOff') || true,
 });
 
 export const itemNumOnOffState = atom({
   key: 'itemNumOnOffState',
-	default: window.localStorage.getItem('itemNumOnOff') || false,
+	default: window.localStorage.getItem('itemNumOnOff') || true,
 });

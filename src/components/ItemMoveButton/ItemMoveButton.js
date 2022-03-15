@@ -58,20 +58,20 @@ const ItemMoveButton = ({ selectedLeft, setSelectedLeft, selectedRight, setSelec
 
   return (
     <Wrap>
-      <Button>
-        <FontAwesomeIcon icon={faArrowRotateRight} onClick={handleInitializationClick} />
+      <Button onClick={handleInitializationClick}>
+        <FontAwesomeIcon icon={faArrowRotateRight} />
       </Button>
-      <Button>
-        <FontAwesomeIcon icon={faAngleDoubleLeft} onClick={() => handleMoveAll('right')} />
+      <Button onClick={() => handleMoveAll('right')}>
+        <FontAwesomeIcon icon={faAngleDoubleLeft} />
       </Button>
-      <Button>
-        <FontAwesomeIcon icon={faAngleDoubleRight} onClick={() => handleMoveAll('left')} />
+      <Button onClick={() => handleMoveAll('left')}>
+        <FontAwesomeIcon icon={faAngleDoubleRight} />
       </Button>
-      <Button>
-        <FontAwesomeIcon icon={faAngleLeft} onClick={handleMoveSelected} />
+      <Button onClick={handleMoveSelected}>
+        <FontAwesomeIcon icon={faAngleLeft} />
       </Button>
-      <Button>
-        <FontAwesomeIcon icon={faAngleRight} onClick={handleMoveAvailable} />
+      <Button onClick={handleMoveAvailable}>
+        <FontAwesomeIcon icon={faAngleRight} />
       </Button>
     </Wrap>
   );
@@ -82,6 +82,7 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   border-collapse: collapse;
+  width: 30px;
 `;
 const Button = styled.button`
   margin-top: -1px;
@@ -89,7 +90,6 @@ const Button = styled.button`
   background: white;
   border: 1px solid lightgray;
   border-radius: 3px;
-  width: 30px;
-  height: 30px;
   cursor: pointer;
+  height: 30px;
 `;
