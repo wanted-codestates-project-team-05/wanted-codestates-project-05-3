@@ -1,48 +1,98 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { emojiMenus } from '../assets/data';
 import { componentHeightState, componentWidthState, itemSizeState } from '../atom/objectAtom';
-import { oneDragOnOffState } from '../atom/onoffAtom';
+import { itemNumOnOffState, oneDragOnOffState } from '../atom/onoffAtom';
 import { DragToReorderList } from '../hooks/DragAndDrop';
+import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 
-export default function ListContainer({ list = emojiMenus, title = 'available' }) {
-  const [items, setItems] = useState(list);
+export default function ListContainer({ list, setList, selected, setSelected, title }) {
+  const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState('');
-  const [selected, setSelected] = useState([]);
+  const [initialSelect, setInitialSelect] = useState();
   const size = useRecoilValue(itemSizeState);
   const width = useRecoilValue(componentWidthState);
   const height = useRecoilValue(componentHeightState);
-  const draggable = useRecoilValue(oneDragOnOffState);
+  const multiSelect = useRecoilValue(oneDragOnOffState);
+  const countView = useRecoilValue(itemNumOnOffState);
 
   const { onDragStart, onDragOver, onDragLeave, onDrop } = DragToReorderList({
-    items,
-    setItems,
+    list,
+    setList,
   });
 
   const handleInput = ({ target: { value } }) => {
     setFilter(value);
   };
 
+  // const handleSelected = (e, option) => {
+  //   if (!multiSelect) {
+  //     setSelected([item]);
+  //     setInitialSelect(item);
+  //     return;
+  //   }
+  //   if (e.shiftKey) {
+  //     const index = list.findIndex((value) => value === initialSelect);
+  //     const clickedIndex = list.findIndex((value) => value === option);
+  //     if (index <= clickedIndex) setSelected(list.slice(index, clickedIndex + 1));
+  //     if (index > clickedIndex) setSelected(list.slice(clickedIndex, index + 1));
+  //     return;
+  //   }
+  //   if (e.nativeEvent.ctrlKey) {
+  //     setSelected((prev) =>
+  //       prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]
+  //     );
+  //     setInitialSelect(item);
+  //     return;
+  //   }
+  //     else {
+  //       if (selected.includes(option)) {
+  //         setSelected((selected) => selected.filter((item) => item.id !== option.id));
+  //       } else {
+  //         setSelected((selected) => [...selected, option]);
+  //       }
+  //     }
+  //   }
+  //   setSelected([item]);
+  //   setInitialSelect(item);
+  // };
+
   const handleClick = (e, item) => {
+    if (!multiSelect) {
+      setSelected([item]);
+      setInitialSelect(item);
+      return;
+    }
     if (e.nativeEvent.ctrlKey) {
       setSelected((prev) =>
         prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]
       );
-    } else if (e.nativeEvent.shiftKey) {
-      const index = items.findIndex((value) => value === selected[selected.length - 1]);
-      const clickedIndex = items.findIndex((value) => value === item);
-      if (index <= clickedIndex) setSelected(items.slice(index, clickedIndex + 1));
-      if (index > clickedIndex) setSelected(items.slice(clickedIndex, index + 1));
-    } else {
-      setSelected([item]);
+      setInitialSelect(item);
+      return;
     }
+    if (e.nativeEvent.shiftKey) {
+      const index = list.findIndex((value) => value === initialSelect);
+      const clickedIndex = list.findIndex((value) => value === item);
+      if (index <= clickedIndex) setSelected(list.slice(index, clickedIndex + 1));
+      if (index > clickedIndex) setSelected(list.slice(clickedIndex, index + 1));
+      return;
+    }
+    setSelected([item]);
+    setInitialSelect(item);
   };
+
+  // useEffect(() => {
+  //   console.log(selected);
+  // }, [selected]);
+
+  useEffect(() => {
+    console.log(list);
+  }, [list]);
 
   useEffect(() => {
     setSelected([]);
-    setItems(list.filter((item) => item.name.includes(filter)));
-  }, [filter, list]);
+    setFiltered(list.filter((item) => item?.name.includes(filter)));
+  }, [filter, list, setSelected]);
 
   return (
     <Container width={width}>
@@ -52,14 +102,14 @@ export default function ListContainer({ list = emojiMenus, title = 'available' }
           <p>{title}</p>
         </TextBox>
         <Ul height={height}>
-          {items.map((item, index) => {
+          {filtered.map((item, index) => {
             return (
               <Li
                 key={item.id}
                 size={size}
                 selected={selected.includes(item)}
                 data-position={index}
-                draggable={!draggable}
+                draggable={true}
                 onClick={(e) => handleClick(e, item)}
                 onDragStart={onDragStart}
                 onDragOver={onDragOver}
@@ -69,11 +119,7 @@ export default function ListContainer({ list = emojiMenus, title = 'available' }
             );
           })}
         </Ul>
-        <CountBox>
-          <p>
-            {selected.length}/{items.length}
-          </p>
-        </CountBox>
+        {countView && <CountSelectedItem allCount={filtered.length} selectedItemsLength={selected.length} />}
       </Wrapper>
     </Container>
   );
@@ -132,13 +178,4 @@ const Li = styled.li`
   &:last-child {
     border-bottom: none;
   }
-`;
-
-const CountBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  padding: 5px 0px;
-  border-top: 1px solid lightgray;
 `;
