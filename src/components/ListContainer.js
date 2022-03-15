@@ -26,6 +26,38 @@ export default function ListContainer({ list, selected, setSelected, title }) {
     setFilter(value);
   };
 
+  // const handleSelected = (e, option) => {
+  //   if (!multiSelect) {
+  //     setSelected([item]);
+  //     setInitialSelect(item);
+  //     return;
+  //   }
+  //   if (e.shiftKey) {
+  //     const index = list.findIndex((value) => value === initialSelect);
+  //     const clickedIndex = list.findIndex((value) => value === option);
+  //     if (index <= clickedIndex) setSelected(list.slice(index, clickedIndex + 1));
+  //     if (index > clickedIndex) setSelected(list.slice(clickedIndex, index + 1));
+  //     return;
+  //   }
+  //   if (e.nativeEvent.ctrlKey) {
+  //     setSelected((prev) =>
+  //       prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]
+  //     );
+  //     setInitialSelect(item);
+  //     return;
+  //   }
+  //     else {
+  //       if (selected.includes(option)) {
+  //         setSelected((selected) => selected.filter((item) => item.id !== option.id));
+  //       } else {
+  //         setSelected((selected) => [...selected, option]);
+  //       }
+  //     }
+  //   }
+  //   setSelected([item]);
+  //   setInitialSelect(item);
+  // };
+
   const handleClick = (e, item) => {
     if (multiSelect) {
       setSelected([item]);
@@ -49,6 +81,14 @@ export default function ListContainer({ list, selected, setSelected, title }) {
     setSelected([item]);
     setInitialSelect(item);
   };
+
+  // useEffect(() => {
+  //   console.log(selected);
+  // }, [selected]);
+
+  useEffect(() => {
+    console.log(list);
+  }, [list]);
 
   useEffect(() => {
     console.log(list);
@@ -74,7 +114,7 @@ export default function ListContainer({ list, selected, setSelected, title }) {
                 size={size}
                 selected={selected.includes(item)}
                 data-position={index}
-                draggable={!draggable}
+                draggable={true}
                 onClick={(e) => handleClick(e, item)}
                 onDragStart={onDragStart}
                 onDragOver={onDragOver}
@@ -148,8 +188,11 @@ const Li = styled.li`
   &:last-child {
     border-bottom: none;
   }
+<<<<<<< HEAD
   &.over {
     transform: scale(1.1, 1.1);
     background-color: #00a8ff;
   }
+=======
+>>>>>>> 1d8eaab (feat: homepage...)
 `;
