@@ -20,15 +20,15 @@ const Setting = () => {
   const [isSetting, setIsSetting] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
-  const [title, setTitle] = useRecoilState(titleOnOffState);
-  const [leftTitleName, setLeftTitleName] = useRecoilState(leftTitleNameState);
-  const [rightTitleName, setRightTitleName] = useRecoilState(rightTitleNameState);
-  const [search, setSearch] = useRecoilState(searchOnOffState);
-  const [oneDrag, setOneDrag] = useRecoilState(oneDragOnOffState);
-  const [itemNum, setItemNum] = useRecoilState(itemNumOnOffState);
-  const [itemSize, setItemSize] = useRecoilState(itemSizeState);
-  const [componentWidth, setComponentWidth] = useRecoilState(componentWidthState);
-  const [componentHeight, setComponentHeight] = useRecoilState(componentHeightState);
+  const [menuTitle, setMenuTitle] = useRecoilState(titleOnOffState);
+  const [menuLeftTitleName, setMenuLeftTitleName] = useRecoilState(leftTitleNameState);
+  const [menuRightTitleName, setMenuRightTitleName] = useRecoilState(rightTitleNameState);
+  const [menuSearch, setMenuSearch] = useRecoilState(searchOnOffState);
+  const [menuOneDrag, setMenuOneDrag] = useRecoilState(oneDragOnOffState);
+  const [menuItemNum, setMenuItemNum] = useRecoilState(itemNumOnOffState);
+  const [menuItemSize, setMenuItemSize] = useRecoilState(itemSizeState);
+  const [menuComponentWidth, setMenuComponentWidth] = useRecoilState(componentWidthState);
+  const [menuComponentHeight, setMenuComponentHeight] = useRecoilState(componentHeightState);
 
   const sizeOptions = [
     { label: 'XS', value: 16 },
@@ -37,26 +37,26 @@ const Setting = () => {
   ];
 
   const handlerTitleCurrent = () => {
-    setTitle(!title);
+    setMenuTitle(!menuTitle);
   };
 
   const handlerSearchCurrent = () => {
-    setSearch(!search);
+    setMenuSearch(!menuSearch);
   };
 
   const handlerDragCurrent = () => {
-    setOneDrag(!oneDrag);
+    setMenuOneDrag(!menuOneDrag);
   };
 
   const handlerItemCurrent = () => {
-    setItemNum(!itemNum);
+    setMenuItemNum(!menuItemNum);
   };
 
   const handlerChangeComponentWidth = (e) => {
     const regex = /^[0-9]/g;
     if (e.target.value.replace(regex, "")) {
       if (e.target.value >= 200) { 
-        setComponentWidth(e.target.value);
+        setMenuComponentWidth(e.target.value);
       }
     }
     if (regex.test(e.target.value) === false) {
@@ -69,7 +69,7 @@ const Setting = () => {
     const regex = /^[0-9]/g;
     if (e.target.value.replace(regex, '')) {
       if (e.target.value >= 300) {
-        setComponentHeight(e.target.value);
+        setMenuComponentHeight(e.target.value);
       }
     }
     if (regex.test(e.target.value) === false) {
@@ -81,20 +81,16 @@ const Setting = () => {
   const handlerChangeLeftTitle = (e) => { 
     if (e.target.value === '') {
       e.target.placeholder = '왼쪽 타이틀을 입력하세요.';
-    } else if (e.target.value === 'available options') {
-      e.target.value = ''
     } else { 
-      setLeftTitleName(e.target.value);
+      setMenuLeftTitleName(e.target.value);
     }
   }
 
   const handlerChangeRightTitle = (e) => {
     if (e.target.value === '') {
       e.target.placeholder = '오른쯕 타이틀을 입력하세요.';
-    } else if (e.target.value === 'selected options') {
-      e.target.value = '';
     } else {
-      setRightTitleName(e.target.value);
+      setMenuRightTitleName(e.target.value);
     }
     
   };
@@ -117,13 +113,13 @@ const Setting = () => {
             <span className="set-txt">타이틀</span>
             <button
               onClick={handlerTitleCurrent}
-              className={title ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={menuTitle ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
-          {title && (
+          {menuTitle && (
             <li>
               <input
-                defaultValue={leftTitleName}
+                defaultValue={menuLeftTitleName}
                 placeholder="available options"
                 onChange={handlerChangeLeftTitle}
                 className="inp-setting"
@@ -134,7 +130,7 @@ const Setting = () => {
                 }}
               />
               <input
-                defaultValue={rightTitleName}
+                defaultValue={menuRightTitleName}
                 placeholder="selected options"
                 onChange={handlerChangeRightTitle}
                 className="inp-setting"
@@ -150,21 +146,21 @@ const Setting = () => {
             <span className="set-txt">검색</span>
             <button
               onClick={handlerSearchCurrent}
-              className={search ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={menuSearch ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
             <span className="set-txt">하나씩만 옮기기</span>
             <button
               onClick={handlerDragCurrent}
-              className={oneDrag ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={menuOneDrag ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
             <span className="set-txt">아이템 갯수 표시</span>
             <button
               onClick={handlerItemCurrent}
-              className={itemNum ? 'btn-on switch-btn' : 'btn-off switch-btn'}
+              className={menuItemNum ? 'btn-on switch-btn' : 'btn-off switch-btn'}
             ></button>
           </li>
           <li>
@@ -176,8 +172,8 @@ const Setting = () => {
                   id={item.label}
                   className="checkbox-size"
                   type="radio"
-                  checked={itemSize.toString() === item.value.toString()}
-                  onChange={(e) => setItemSize(e.target.value)}
+                  checked={menuItemSize.toString() === item.value.toString()}
+                  onChange={(e) => setMenuItemSize(e.target.value)}
                   name={item.label}
                   defaultValue={item.value}
                 />
@@ -190,9 +186,9 @@ const Setting = () => {
                 type="text"
                 maxLength="3"
                 onChange={handlerChangeComponentWidth}
-                placeholder={'가로 ( ' + componentWidth + 'px, 최소 크키 200px)'}
+                placeholder={'가로 ( ' + menuComponentWidth + 'px, 최소 크키 200px)'}
                 className="inp-setting"
-                defaultValue={componentWidth === 200 ? '' : componentWidth}
+                defaultValue={menuComponentWidth === 200 ? '' : menuComponentWidth}
               />
             </div>
             <div>
@@ -200,9 +196,9 @@ const Setting = () => {
                 type="text"
                 maxLength="3"
                 onChange={handlerChangeComponentHight}
-                placeholder={'세로 (' + componentHeight + 'px, 최소 크기 300px)'}
+                placeholder={'세로 (' + menuComponentHeight + 'px, 최소 크기 300px)'}
                 className="inp-setting"
-                defaultValue={componentHeight === 300 ? '' : componentHeight}
+                defaultValue={menuComponentHeight === 300 ? '' : menuComponentHeight}
               />
             </div>
           </li>
@@ -214,9 +210,10 @@ const Setting = () => {
 };
 
 const SettingContainer = styled.div`
+  margin-left: 220px;
   position: fixed;
   top: 70px;
-  left: calc(100% - 23%);
+  left: calc(100% - 28%);
   .set-btn {
     cursor: pointer;
     border: 1px solid lightgray;
