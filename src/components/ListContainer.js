@@ -1,42 +1,58 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { emojiMenus } from '../assets/data';
+import { componentHeightState, componentWidthState, itemSizeState } from '../atom/objectAtom';
+import { itemNumOnOffState, oneDragOnOffState } from '../atom/onoffAtom';
 import { DragToReorderList } from '../hooks/DragAndDrop';
+import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 
-export default function ListContainer({ title = 'available', width, height, fontSize = 'M' }) {
-  const [items, setItems] = useState(emojiMenus);
+export default function ListContainer({ list, selected, setSelected, title }) {
+  const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState('');
-  const [selected, setSelected] = useState([]);
-  const [size, setSize] = useState();
+  const [initialSelect, setInitialSelect] = useState();
+  const size = useRecoilValue(itemSizeState);
+  const width = useRecoilValue(componentWidthState);
+  const height = useRecoilValue(componentHeightState);
+  const multiSelect = useRecoilValue(oneDragOnOffState);
+  const countView = useRecoilValue(itemNumOnOffState);
+
   const { onDragStart, onDragOver, onDragLeave, onDragEnter, onDragEnd, onDrop } = DragToReorderList({
-    items,
-    setItems,
+    filtered,
+    setFiltered,
   });
+
   const handleInput = ({ target: { value } }) => {
     setFilter(value);
   };
 
-  const handleClick = (item) => {
-    setSelected((prev) => (prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]));
+  const handleClick = (e, item) => {
+    if (!multiSelect) {
+      setSelected([item]);
+      setInitialSelect(item);
+      return;
+    }
+    if (e.nativeEvent.ctrlKey || e.metaKey) {
+      setSelected((prev) =>
+        prev.includes(item) ? [...prev.filter((value) => value.id !== item.id)] : [...prev, item]
+      );
+      setInitialSelect(item);
+      return;
+    }
+    if (e.nativeEvent.shiftKey) {
+      const index = list.findIndex((value) => value === initialSelect);
+      const clickedIndex = list.findIndex((value) => value === item);
+      if (index <= clickedIndex) setSelected(list.slice(index, clickedIndex + 1));
+      if (index > clickedIndex) setSelected(list.slice(clickedIndex, index + 1));
+      return;
+    }
+    setSelected([item]);
+    setInitialSelect(item);
   };
 
   useEffect(() => {
-    switch (fontSize) {
-      case 'XS':
-        setSize(0.6);
-        break;
-      case 'S':
-        setSize(0.8);
-        break;
-      default:
-        setSize(1);
-    }
-  }, [fontSize]);
-
-  useEffect(() => {
     setSelected([]);
-    setItems(emojiMenus.filter((item) => item.name.includes(filter)));
-  }, [filter]);
+    setFiltered(list.filter((item) => item?.name.includes(filter)));
+  }, [filter, list, setSelected]);
 
   return (
     <Container width={width}>
@@ -46,15 +62,15 @@ export default function ListContainer({ title = 'available', width, height, font
           <p>{title}</p>
         </TextBox>
         <Ul height={height}>
-          {items.map((item, index) => {
+          {filtered.map((item, index) => {
             return (
               <Li
                 key={item.id}
                 size={size}
                 selected={selected.includes(item)}
-                onClick={() => handleClick(item)}
                 data-position={index}
                 draggable={true}
+                onClick={(e) => handleClick(e, item)}
                 onDragStart={onDragStart}
                 onDragOver={onDragOver}
                 onDragLeave={onDragLeave}
@@ -66,11 +82,7 @@ export default function ListContainer({ title = 'available', width, height, font
             );
           })}
         </Ul>
-        <CountBox>
-          <p>
-            {selected.length}/{items.length}
-          </p>
-        </CountBox>
+        {countView && <CountSelectedItem allCount={filtered.length} selectedItemsLength={selected.length} />}
       </Wrapper>
     </Container>
   );
@@ -119,7 +131,7 @@ const Ul = styled.ul`
 
 const Li = styled.li`
   padding: 10px 0 10px 15px;
-  font-size: ${({ size }) => size * 16}px;
+  font-size: ${({ size }) => size}px;
   border-bottom: 1px solid lightgray;
   ${({ selected }) => (selected ? 'background-color: skyblue;' : '')}
   cursor: pointer;
@@ -133,13 +145,4 @@ const Li = styled.li`
     transform: scale(1.1, 1.1);
     background-color: #00a8ff;
   }
-`;
-
-const CountBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  padding: 5px 0px;
-  border-top: 1px solid lightgray;
 `;

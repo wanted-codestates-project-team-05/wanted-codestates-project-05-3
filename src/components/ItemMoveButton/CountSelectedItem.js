@@ -1,12 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { leftListState, rightListState } from '../../atom/objectAtom';
-import { useRecoilState } from 'recoil';
 
-const CountSelectedItem = ({ selectedItemsLength, direction }) => {
-  const [leftList, setLeftList] = useRecoilState(leftListState);
-  const [rightList, setRightList] = useRecoilState(rightListState);
-  const allCount = direction === 'left' ? leftList.length : rightList.length;
+const CountSelectedItem = ({ selectedItemsLength, allCount }) => {
   return (
     <Wrap>
       <Text>
@@ -19,13 +14,12 @@ const CountSelectedItem = ({ selectedItemsLength, direction }) => {
 export default CountSelectedItem;
 
 const Wrap = styled.div`
-  width: 200px;
-  background-color: white;
-  border: 1px solid lightgray;
-  border-radius: 3px;
-  text-align: center;
-  height: 20px;
-  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  padding: 5px 0px;
+  border-top: 1px solid lightgray;
 `;
 
 const Text = styled.p``;
