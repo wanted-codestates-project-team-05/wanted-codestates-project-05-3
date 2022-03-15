@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import ItemMoveButton from '../components/ItemMoveButton/ItemMoveButton';
 import ListContainer from '../components/ListContainer';
 import Setting from '../components/Setting';
+import useSetSessionStorage from '../hooks/useSetSessionStorage';
 
 export default function Homepage() {
-  const [leftList, setLeftList] = useRecoilState(leftListState);
-  const [rightList, setRightList] = useRecoilState(rightListState);
+  const [leftList, setLeftList] = useSetSessionStorage(leftListState, 'leftList', true);
+  const [rightList, setRightList] = useSetSessionStorage(rightListState, 'rightList', true);
   const [selectedLeft, setSelectedLeft] = useState([]);
   const [selectedRight, setSelectedRight] = useState([]);
   const leftTitleName = useRecoilValue(leftTitleNameState);
@@ -29,7 +30,13 @@ export default function Homepage() {
   return (
     <Container>
       <Wrapper>
-        <ListContainer list={leftList} selected={selectedLeft} setSelected={setSelectedLeft} title={leftTitleName} />
+        <ListContainer 
+          list={leftList} 
+          selected={selectedLeft} 
+          setSelected={setSelectedLeft} 
+          title={leftTitleName} 
+          setLeftList={setLeftList}
+        />
         <ItemMoveButton
           selectedLeft={selectedLeft}
           setSelectedLeft={setSelectedLeft}
@@ -41,6 +48,7 @@ export default function Homepage() {
           selected={selectedRight}
           setSelected={setSelectedRight}
           title={rightTitleName}
+          setRightList={setRightList}
         />
       </Wrapper>
       <Setting />

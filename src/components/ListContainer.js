@@ -6,7 +6,7 @@ import { itemNumOnOffState, oneDragOnOffState, searchOnOffState } from '../atom/
 import { DragToReorderList } from '../hooks/DragAndDrop';
 import CountSelectedItem from './ItemMoveButton/CountSelectedItem';
 
-export default function ListContainer({ list, selected, setSelected, title }) {
+export default function ListContainer({ list, selected, setSelected, title, setLeftList, setRightList }) {
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState('');
   const [initialSelect, setInitialSelect] = useState();
@@ -20,6 +20,8 @@ export default function ListContainer({ list, selected, setSelected, title }) {
   const { onDragStart, onDragOver, onDragLeave, onDragEnter, onDragEnd, onDrop } = DragToReorderList({
     filtered,
     setFiltered,
+    setLeftList,
+    setRightList,
   });
 
   const handleInput = ({ target: { value } }) => {

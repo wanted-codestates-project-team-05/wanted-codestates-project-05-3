@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const DragToReorderList = ({ filtered, setFiltered }) => {
+export const DragToReorderList = ({ filtered, setFiltered, setLeftList, setRightList }) => {
   // dragAndDrop 초기값
   const [dragAndDrop, setDragAndDrop] = useState({
     draggedFrom: null,
@@ -38,6 +38,12 @@ export const DragToReorderList = ({ filtered, setFiltered }) => {
   // 드래그가 끝나서 드래그하던 객체를 놓는 장소에 위치한 객체에서 발생함
   const onDrop = (event) => {
     setFiltered(dragAndDrop.updatedOrder);
+    if(setRightList){
+      setRightList(dragAndDrop.updatedOrder);
+    }
+    if(setLeftList){
+      setLeftList(dragAndDrop.updatedOrder);
+    }
     setDragAndDrop({
       ...dragAndDrop,
       draggedFrom: null,
