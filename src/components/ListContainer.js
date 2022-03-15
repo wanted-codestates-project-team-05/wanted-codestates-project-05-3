@@ -83,10 +83,6 @@ export default function ListContainer({ list, selected, setSelected, title }) {
   };
 
   useEffect(() => {
-    console.log(list);
-  }, [list]);
-
-  useEffect(() => {
     setSelected([]);
     setFiltered(list.filter((item) => item?.name.includes(filter)));
   }, [filter, list, setSelected]);
@@ -119,9 +115,7 @@ export default function ListContainer({ list, selected, setSelected, title }) {
             );
           })}
         </Ul>
-        {countView && (
-          <CountSelectedItem direction={direction} allCount={filtered.length} selectedItemsLength={selected.length} />
-        )}
+        {countView && <CountSelectedItem allCount={filtered.length} selectedItemsLength={selected.length} />}
       </Wrapper>
     </Container>
   );
