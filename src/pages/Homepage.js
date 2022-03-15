@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { leftListState, leftTitleNameState, rightListState, rightTitleNameState } from '../atom/objectAtom';
 import styled from 'styled-components';
@@ -12,6 +12,18 @@ export default function Homepage() {
   const [selectedRight, setSelectedRight] = useState([]);
   const leftTitleName = useRecoilValue(leftTitleNameState);
   const rightTitleName = useRecoilValue(rightTitleNameState);
+
+  useEffect(() => {
+    if (selectedLeft.length > 0) {
+      setSelectedRight([]);
+    }
+  }, [selectedLeft, setSelectedRight]);
+
+  useEffect(() => {
+    if (selectedRight.length > 0) {
+      setSelectedLeft([]);
+    }
+  }, [selectedRight, setSelectedLeft]);
 
   return (
     <Container>
