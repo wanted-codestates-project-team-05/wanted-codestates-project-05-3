@@ -27,7 +27,7 @@ export default function ListContainer({ list, selected, setSelected, title }) {
   };
 
   const handleClick = (e, item) => {
-    if (!multiSelect) {
+    if (multiSelect) {
       setSelected([item]);
       setInitialSelect(item);
       return;
@@ -40,10 +40,10 @@ export default function ListContainer({ list, selected, setSelected, title }) {
       return;
     }
     if (e.nativeEvent.shiftKey) {
-      const index = list.findIndex((value) => value === initialSelect);
-      const clickedIndex = list.findIndex((value) => value === item);
-      if (index <= clickedIndex) setSelected(list.slice(index, clickedIndex + 1));
-      if (index > clickedIndex) setSelected(list.slice(clickedIndex, index + 1));
+      const index = filtered.findIndex((value) => value === initialSelect);
+      const clickedIndex = filtered.findIndex((value) => value === item);
+      if (index <= clickedIndex) setSelected(filtered.slice(index, clickedIndex + 1));
+      if (index > clickedIndex) setSelected(filtered.slice(clickedIndex, index + 1));
       return;
     }
     setSelected([item]);
@@ -57,7 +57,7 @@ export default function ListContainer({ list, selected, setSelected, title }) {
 
   return (
     <Container width={width}>
-      {search && <Input type="text" onChange={handleInput} placeholder={'search'} />}
+      {search && <Input type="text" onChange={handleInput} placeholder={'search'} value={filter} />}
       <Wrapper>
         <TextBox>
           <p>{title}</p>
@@ -123,7 +123,6 @@ const TextBox = styled.div`
 const Ul = styled.ul`
   list-style: none;
   height: ${({ height }) => (height ? height : 300)}px;
-
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -138,9 +137,6 @@ const Li = styled.li`
   cursor: pointer;
   &:hover {
     background-color: skyblue;
-  }
-  &:last-child {
-    border-bottom: none;
   }
   &.over {
     transform: scale(1.1, 1.1);
