@@ -9,50 +9,34 @@ import {
   faArrowRotateRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { leftListState, rightListState } from '../../atom/objectAtom';
-import { useRecoilState } from 'recoil';
 import { emojiMenus } from '../../assets/data';
+import useSetSessionStorage from '../../hooks/useSetSessionStorage';
 
 const ItemMoveButton = ({ selectedLeft, setSelectedLeft, selectedRight, setSelectedRight }) => {
-  const [leftList, setLeftList] = useRecoilState(leftListState);
-  const [rightList, setRightList] = useRecoilState(rightListState);
+  const [leftListTest, setLeftListTest] = useSetSessionStorage(leftListState, 'leftList', true);
+  const [rightListTest, setRightListTest] = useSetSessionStorage(rightListState, 'rightList', true);
 
   const handleInitializationClick = () => {
-    setLeftList(emojiMenus);
-    setRightList([]);
+    setLeftListTest(emojiMenus);
+    setRightListTest([]);
   };
   const handleMoveSelected = () => {
-    setRightList((list) => list.concat(selectedLeft));
-    setLeftList((list) =>
-      list.filter((option) => {
-        let result = true;
-        selectedLeft?.forEach((item) => {
-          if (option.id === item.id) result = false;
-        });
-        return result;
-      })
-    );
+    setRightListTest(selectedLeft, 'list');
+    setLeftListTest(selectedLeft, 'filter');
     setSelectedLeft([]);
   };
   const handleMoveAvailable = () => {
-    setLeftList((leftList) => leftList.concat(selectedRight));
-    setRightList((rightList) =>
-      rightList.filter((option) => {
-        let result = true;
-        selectedRight?.forEach((item) => {
-          if (option.id === item.id) result = false;
-        });
-        return result;
-      })
-    );
+    setLeftListTest(selectedRight, 'list');
+    setRightListTest(selectedRight, 'filter');
     setSelectedRight([]);
   };
   const handleMoveAll = (direction) => {
     if (direction === 'right') {
-      setRightList((rightList) => rightList.concat(leftList));
-      setLeftList([]);
+      setRightListTest(leftListTest, 'list');
+      setLeftListTest([]);
     } else if (direction === 'left') {
-      setLeftList((leftList) => leftList.concat(rightList));
-      setRightList([]);
+      setLeftListTest(rightListTest, 'list');
+      setRightListTest([]);
     }
   };
 

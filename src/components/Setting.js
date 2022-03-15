@@ -15,20 +15,21 @@ import {
   leftTitleNameState, 
   rightTitleNameState,
 } from '../atom/objectAtom';
+import useSetSessionStorage from '../hooks/useSetSessionStorage';
 
 const Setting = () => {
   const [isSetting, setIsSetting] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
-  const [menuTitle, setMenuTitle] = useRecoilState(titleOnOffState);
-  const [menuLeftTitleName, setMenuLeftTitleName] = useRecoilState(leftTitleNameState);
-  const [menuRightTitleName, setMenuRightTitleName] = useRecoilState(rightTitleNameState);
-  const [menuSearch, setMenuSearch] = useRecoilState(searchOnOffState);
-  const [menuOneDrag, setMenuOneDrag] = useRecoilState(oneDragOnOffState);
-  const [menuItemNum, setMenuItemNum] = useRecoilState(itemNumOnOffState);
-  const [menuItemSize, setMenuItemSize] = useRecoilState(itemSizeState);
-  const [menuComponentWidth, setMenuComponentWidth] = useRecoilState(componentWidthState);
-  const [menuComponentHeight, setMenuComponentHeight] = useRecoilState(componentHeightState);
+  const [menuTitle, setMenuTitle] = useSetSessionStorage(titleOnOffState, 'titleOnOff');
+  const [menuLeftTitleName, setMenuLeftTitleName] = useSetSessionStorage(leftTitleNameState, 'leftTitleName');
+  const [menuRightTitleName, setMenuRightTitleName] = useSetSessionStorage(rightTitleNameState, 'rightTitleName');
+  const [menuSearch, setMenuSearch] = useSetSessionStorage(searchOnOffState, 'searchOnOff');
+  const [menuOneDrag, setMenuOneDrag] = useSetSessionStorage(oneDragOnOffState, 'oneDragOnOff');
+  const [menuItemNum, setMenuItemNum] = useSetSessionStorage(itemNumOnOffState, 'itemNumOnOff');
+  const [menuItemSize, setMenuItemSize] = useSetSessionStorage(itemSizeState, 'itemSize');
+  const [menuComponentWidth, setMenuComponentWidth] = useSetSessionStorage(componentWidthState, 'componentWidth');
+  const [menuComponentHeight, setMenuComponentHeight] = useSetSessionStorage(componentHeightState, 'componentHeight');
 
   const sizeOptions = [
     { label: 'XS', value: 16 },
