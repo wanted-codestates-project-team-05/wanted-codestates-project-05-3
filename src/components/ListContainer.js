@@ -51,14 +51,6 @@ export default function ListContainer({ list, setList, selected, setSelected, ti
     setInitialSelect(item);
   };
 
-  // useEffect(() => {
-  //   console.log(selected);
-  // }, [selected]);
-
-  useEffect(() => {
-    console.log(list);
-  }, [list]);
-
   useEffect(() => {
     setSelected([]);
     setFiltered(list.filter((item) => item?.name.includes(filter)));

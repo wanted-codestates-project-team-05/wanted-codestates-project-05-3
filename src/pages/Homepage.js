@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { leftListState, leftTitleNameState, rightListState, rightTitleNameState } from '../atom/objectAtom';
 import styled from 'styled-components';
 import ItemMoveButton from '../components/ItemMoveButton/ItemMoveButton';
@@ -8,9 +8,10 @@ import ListContainer from '../components/ListContainer';
 export default function Homepage() {
   const [leftList, setLeftList] = useRecoilState(leftListState);
   const [rightList, setRightList] = useRecoilState(rightListState);
-  const [selected, setSelected] = useState([]);
-  const [leftTitleName, setLeftTitleName] = useRecoilState(leftTitleNameState);
-  const [rightTitleName, setRightTitleName] = useRecoilState(rightTitleNameState);
+  const [selectedLeft, setSelectedLeft] = useState([]);
+  const [selectedRight, setSelectedRight] = useState([]);
+  const leftTitleName = useRecoilValue(leftTitleNameState);
+  const rightTitleName = useRecoilValue(rightTitleNameState);
 
   return (
     <Container>
@@ -18,18 +19,22 @@ export default function Homepage() {
         <ListContainer
           list={leftList}
           setList={setLeftList}
-          selected={selected}
-          setSelected={setSelected}
+        selected={selectedLeft}
+        setSelected={setSelectedLeft}
           title={leftTitleName}
-          direction={'left'}
-        />
-        <ItemMoveButton selectedItems={selected} setSelectedItems={setSelected} />
-        <ListContainer
-          list={rightList}
-          setList={setRightList}
-          selected={selected}
-          setSelected={setSelected}
-          title={rightTitleName}
+      />
+      <ItemMoveButton
+        selectedLeft={selectedLeft}
+        setSelectedLeft={setSelectedLeft}
+        selectedRight={selectedRight}
+        setSelectedRight={setSelectedRight}
+      />
+      <ListContainer
+        list={rightList}
+        setList={setRightList}
+        selected={selectedRight}
+        setSelected={setSelectedRight}
+        title={rightTitleName}
           direction={'right'}
         />
       </Wrapper>
