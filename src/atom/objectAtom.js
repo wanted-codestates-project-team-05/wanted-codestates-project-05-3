@@ -3,12 +3,12 @@ import { atom } from 'recoil';
 
 export const leftListState = atom({
 	key: 'leftListState',
-	default: window.localStorage.getItem('leftList') || emojiMenus,
+	default: JSON.parse(window.localStorage.getItem('leftList')) || emojiMenus,
 });
 
 export const rightListState = atom({
 	key: 'rightListState',
-	default: window.localStorage.getItem('rightList') || [],
+	default: JSON.parse(window.localStorage.getItem('rightList')) || [],
 });
 
 export const leftTitleNameState = atom({
@@ -23,15 +23,15 @@ export const rightTitleNameState = atom({
 
 export const itemSizeState = atom({
 	key: 'itemSizeState',
-	default: window.localStorage.getItem('itemSize') || 16,
+	default: parseInt(window.localStorage.getItem('itemSize')) || 16,
 });
 
 export const componentWidthState = atom({
 	key: 'componentWidthState',
-	default: window.localStorage.getItem('componentWidth') || 200,
+	default: parseInt(window.localStorage.getItem('componentWidth')) || 200,
 });
 
 export const componentHeightState = atom({
 	key: 'componentHeightState',
-	default: window.localStorage.getItem('componentHeight') || 300,
+	default: parseInt(window.localStorage.getItem('componentHeight')) || 300,
 });
