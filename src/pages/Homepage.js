@@ -31,22 +31,22 @@ export default function Homepage() {
         <ListContainer
           list={leftList}
           setList={setLeftList}
-        selected={selectedLeft}
-        setSelected={setSelectedLeft}
+          selected={selectedLeft}
+          setSelected={setSelectedLeft}
           title={leftTitleName}
-      />
-      <ItemMoveButton
-        selectedLeft={selectedLeft}
-        setSelectedLeft={setSelectedLeft}
-        selectedRight={selectedRight}
-        setSelectedRight={setSelectedRight}
-      />
-      <ListContainer
-        list={rightList}
-        setList={setRightList}
-        selected={selectedRight}
-        setSelected={setSelectedRight}
-        title={rightTitleName}
+        />
+        <ItemMoveButton
+          selectedLeft={selectedLeft}
+          setSelectedLeft={setSelectedLeft}
+          selectedRight={selectedRight}
+          setSelectedRight={setSelectedRight}
+        />
+        <ListContainer
+          list={rightList}
+          setList={setRightList}
+          selected={selectedRight}
+          setSelected={setSelectedRight}
+          title={rightTitleName}
           direction={'right'}
         />
       </Wrapper>
