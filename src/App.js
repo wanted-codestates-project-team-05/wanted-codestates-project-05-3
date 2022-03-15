@@ -9,7 +9,7 @@ function App() {
       <GlobalStyle />
       {/*<Homepage />*/}
       {/*<ListContainer />*/}
-      <FakeHomePage />
+      {/* <FakeHomePage /> */}
       <ListContainer />
       <Setting />
     </>
