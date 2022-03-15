@@ -1,5 +1,5 @@
 import GlobalStyle from './GlobalStyle';
-import Homepage from './pages/Homepage';
+import Setting from './components/Setting';
 import ListContainer from './components/ListContainer';
 import FakeHomePage from './components/ItemMoveButton/FakeHomePage';
 
@@ -10,6 +10,8 @@ function App() {
       {/*<Homepage />*/}
       {/*<ListContainer />*/}
       <FakeHomePage />
+      <ListContainer />
+      <Setting />
     </>
   );
 }
