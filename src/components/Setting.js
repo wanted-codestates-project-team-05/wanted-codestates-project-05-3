@@ -60,7 +60,7 @@ const Setting = () => {
         setMenuComponentWidth(e.target.value);
       }
     }
-    if (regex.test(e.target.value) === false) {
+    if (regex.test(e.target.value) === false && e.target.value.length >= 1) {
       setIsModal(!isModal);
       e.target.value = '';
     }
@@ -230,6 +230,8 @@ const SettingContent = styled.ul`
   width: 220px;
   border: 1px solid lightgray;
   border-radius: 5px;
+  background-color: #fff;
+  z-index: 10;
   li {
     overflow: hidden;
     padding: 10px;
